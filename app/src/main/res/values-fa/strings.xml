@@ -30,4 +30,12 @@
     <string name="browser_https_only">برای امنیت، مرورگر هوشمند فعلاً فقط آدرس‌های HTTPS را می‌پذیرد.</string>
     <string name="trusted_monitor_site">سایت مانیتورینگ اهواز</string>
     <string name="standard_web_page">صفحه وب</string>
+    <string name="fleet_title">مانیتور ناوگان اتوبوس‌ها</string>
+    <string name="fleet_count">%1$d اتوبوس در فهرست نظارت</string>
+    <string name="bus_code_hint">کد اتوبوس</string>
+    <string name="add_bus">افزودن اتوبوس</string>
+    <string name="bus_code_label">اتوبوس %1$s</string>
+    <string name="bus_waiting_source">در انتظار اتصال منبع اطلاعات زنده</string>
+    <string name="remove_bus">حذف اتوبوس</string>
+    <string name="fleet_source_note">هر تعداد کد اتوبوس که لازم داری اضافه کن. کدها روی همین گوشی ذخیره می‌شوند. موقعیت و وضعیت زنده تا زمان تأیید اتصال داده‌های سایت اهواز نمایش داده نمی‌شود.</string>
 </resources>
