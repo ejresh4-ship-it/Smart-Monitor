@@ -26,5 +26,6 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended")
     // Bundled on-device model: available without a separate model download.
     implementation("com.google.mlkit:image-labeling:17.0.9")
+    implementation("androidx.media3:media3-exoplayer:1.5.1")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
