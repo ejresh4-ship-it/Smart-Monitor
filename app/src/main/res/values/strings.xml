@@ -76,4 +76,9 @@
     <string name="meal_veg_dinner">Lentil soup with whole-grain bread, yogurt and vegetables.</string>
     <string name="health_plan_note">This is a general example, not a medically tailored prescription. Adjust portions to hunger, culture, budget and professional advice. Choose varied minimally processed foods and limit excess salt, free sugars and unhealthy fats.</string>
 
+
+    <string name="health_bmi_caution">Your BMI is outside the usual adult screening range. BMI alone cannot assess health; seek professional advice before pursuing weight change.</string>
+    <string name="health_lose_note">For a weight-loss goal, avoid crash diets or skipping meals. Keep portions comfortable, include vegetables and protein-rich foods, and review progress gradually with a professional if unsure.</string>
+    <string name="health_gain_note">For a weight-gain goal, consider an additional nourishing snack such as yogurt with oats or a peanut-butter sandwich. Avoid relying on sugary drinks or ultra-processed foods.</string>
+
 </resources>
