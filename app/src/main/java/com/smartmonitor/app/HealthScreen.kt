@@ -111,9 +111,9 @@ fun HealthScreen(onBack: () -> Unit) {
             if (error.isNotBlank()) Text(error, color = MaterialTheme.colorScheme.error)
             Button(
                 onClick = {
-                    val a = age.toIntOrNull()
-                    val h = height.toDoubleOrNull()
-                    val w = weight.toDoubleOrNull()
+                    val a = age.toAsciiDigits().toIntOrNull()
+                    val h = height.toAsciiDigits().toDoubleOrNull()
+                    val w = weight.toAsciiDigits().toDoubleOrNull()
                     error = when {
                         a == null || h == null || w == null -> context.getString(R.string.health_invalid)
                         a !in 18..75 || h !in 120.0..220.0 || w !in 35.0..250.0 -> context.getString(R.string.health_out_of_range)
@@ -121,7 +121,7 @@ fun HealthScreen(onBack: () -> Unit) {
                         else -> ""
                     }
                     if (error.isBlank()) {
-                        prefs.edit().putString("age", age).putString("height", height).putString("weight", weight).apply()
+                        prefs.edit().putString("age", age).putString("height", height).putString("weight", weight).putString("sex", sex.name).putString("activity", activity.name).putString("goal", goal.name).putBoolean("vegetarian", vegetarian).apply()
                         planReady = true
                     } else planReady = false
                 },
@@ -129,9 +129,9 @@ fun HealthScreen(onBack: () -> Unit) {
             ) { Text(stringResource(R.string.health_make_plan)) }
 
             if (planReady) {
-                val a = age.toInt()
-                val h = height.toDouble()
-                val w = weight.toDouble()
+                val a = age.toAsciiDigits().toInt()
+                val h = height.toAsciiDigits().toDouble()
+                val w = weight.toAsciiDigits().toDouble()
                 val bmi = w / ((h / 100.0) * (h / 100.0))
                 val bmr = 10 * w + 6.25 * h - 5 * a + if (sex == Sex.MALE) 5 else -161
                 val maintenance = (bmr * activity.factor).roundToInt()
@@ -190,3 +190,11 @@ private fun MealCard(title: String, description: String) {
         }
     }
 }
+
+private fun String.toAsciiDigits(): String = map { ch ->
+    when (ch) {
+        in '۰'..'۹' -> (ch.code - '۰'.code + '0'.code).toChar()
+        in '٠'..'٩' -> (ch.code - '٠'.code + '0'.code).toChar()
+        else -> ch
+    }
+}.joinToString("")
