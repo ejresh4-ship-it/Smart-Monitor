@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">مانیتور هوشمند</string>
+    <string name="brand_title">مانیتور هوشمند</string>
+    <string name="brand_subtitle">نظارت • تحلیل • اطلاع‌رسانی</string>
+    <string name="ready">سیستم آماده به کار است</string>
+    <string name="services">ابزارها و خدمات</string>
+    <string name="monitor_apps">نظارت بر برنامه‌ها</string>
+    <string name="browser">مرورگر هوشمند</string>
+    <string name="analysis">تحلیل اطلاعات</string>
+    <string name="parameters">تعریف پارامترها</string>
+    <string name="reports">گزارش‌ها</string>
+    <string name="alerts">هشدارها</string>
+    <string name="history">تاریخچه فعالیت</string>
+    <string name="favorites">موارد منتخب</string>
+    <string name="settings">تنظیمات</string>
+    <string name="quick_watch">نظارت سریع</string>
+    <string name="url_hint">آدرس سایت یا نام برنامه</string>
+    <string name="start">باز کردن سایت</string>
+    <string name="welcome_title">همیشه در جریان باش!</string>
+    <string name="welcome_body">اطلاعات مهمت را هوشمندانه بررسی و دنبال کن.</string>
+    <string name="home">خانه</string>
+    <string name="language">زبان</string>
+    <string name="language_toggle">English</string>
+    <string name="prototype_note">رابط اولیه؛ اتصال به منابع اطلاعاتی در مراحل بعد اضافه می‌شود.</string>
+</resources>
