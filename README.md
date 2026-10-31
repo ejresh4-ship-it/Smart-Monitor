@@ -14,3 +14,17 @@ Open this repository in Android Studio (Jellyfish or newer), allow Gradle sync, 
 
 ## Scope and limitations
 This is the UI foundation only. It does not yet monitor other apps, extract live bus positions, scrape website content, or run background tracking. Those capabilities require a site-specific data integration and Android permissions/foreground-service design. The next milestone is an in-app WebView and investigation of the bus site's permitted data interface.
+
+
+## Embedded browser (0.2 development step)
+
+The dashboard now opens an in-app Android WebView instead of launching the external browser. It includes address entry, back/forward/reload controls, and an initial URL of `https://eta.ahvaz.ir`.
+
+Security defaults:
+- HTTPS navigation only; cleartext HTTP is disabled.
+- Local file and content access are disabled in WebView.
+- Mixed HTTP/HTTPS page content is blocked.
+- No JavaScript bridge is exposed to web pages.
+- The Ahvaz monitor domain is identified separately as the first planned monitoring connector.
+
+This step provides browsing only. Automatic bus-data extraction, parameter matching, change history, and notifications are not implemented yet. The project targets Android 9 (API 28) and later. A successful Android build/device test has not yet been recorded.
