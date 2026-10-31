@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Smart Monitor</string>
+    <string name="brand_title">Smart Monitor</string>
+    <string name="brand_subtitle">Monitor • Analyze • Notify</string>
+    <string name="ready">System ready</string>
+    <string name="services">Tools &amp; services</string>
+    <string name="monitor_apps">App monitor</string>
+    <string name="browser">Smart browser</string>
+    <string name="analysis">Data analysis</string>
+    <string name="parameters">Parameters</string>
+    <string name="reports">Reports</string>
+    <string name="alerts">Alerts</string>
+    <string name="history">Activity history</string>
+    <string name="favorites">Favorites</string>
+    <string name="settings">Settings</string>
+    <string name="quick_watch">Quick monitoring</string>
+    <string name="url_hint">Website address or app name</string>
+    <string name="start">Open website</string>
+    <string name="welcome_title">Stay informed</string>
+    <string name="welcome_body">Track the information that matters to you.</string>
+    <string name="home">Home</string>
+    <string name="language">Language</string>
+    <string name="language_toggle">فارسی</string>
+    <string name="prototype_note">Starter interface — monitoring connectors will be added in later stages.</string>
+</resources>
