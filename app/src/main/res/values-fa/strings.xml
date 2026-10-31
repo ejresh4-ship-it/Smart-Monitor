@@ -49,4 +49,31 @@
     <string name="health_source_note">راهنمای تغذیه بر پایه منابع معتبر سلامت عمومی خواهد بود و تخمین‌ها به‌روشنی مشخص می‌شوند.</string>
     <string name="back">بازگشت</string>
 
+
+    <string name="health_intro">برای دریافت یک نمونه برنامه غذایی آموزشی، مشخصات بدنی و هدف خود را وارد کنید. این نسخه برای بزرگسالان طراحی شده است.</string>
+    <string name="health_age">سن</string><string name="health_age_unit">سال</string>
+    <string name="health_height">قد</string><string name="health_height_unit">سانتی‌متر</string>
+    <string name="health_weight">وزن</string><string name="health_weight_unit">کیلوگرم</string>
+    <string name="health_sex">جنسیت مورد استفاده در تخمین</string><string name="health_female">زن</string><string name="health_male">مرد</string>
+    <string name="health_activity">میزان فعالیت</string>
+    <string name="activity_low">بیشتر اوقات کم‌تحرک</string><string name="activity_light">فعالیت سبک، ۱ تا ۳ روز در هفته</string><string name="activity_moderate">فعالیت متوسط، ۳ تا ۵ روز در هفته</string><string name="activity_high">فعالیت سنگین، ۶ تا ۷ روز در هفته</string>
+    <string name="health_goal">هدف شما</string><string name="goal_maintain">حفظ وزن</string><string name="goal_lose">کاهش وزن</string><string name="goal_gain">افزایش وزن</string>
+    <string name="health_vegetarian">غذای گیاهی را ترجیح می‌دهم</string><string name="health_medical_flag">بیماری، رژیم درمانی، بارداری یا سابقه اختلال خوردن دارم</string>
+    <string name="health_medical_block">برای حفظ ایمنی، این نسخه در صورت انتخاب بیماری یا شرایط پزشکی خاص، رژیم شخصی تولید نمی‌کند. لطفاً با پزشک یا متخصص تغذیه مشورت کنید.</string>
+    <string name="health_invalid">سن، قد و وزن را به‌صورت عددی وارد کنید.</string><string name="health_out_of_range">این نسخه فقط برای بزرگسالان ۱۸ تا ۷۵ سال طراحی شده است. قد را به سانتی‌متر و وزن را به کیلوگرم وارد کنید.</string>
+    <string name="health_make_plan">محاسبه و ساخت نمونه برنامه</string>
+    <string name="health_estimate_title">تخمین‌های تقریبی شما</string>
+    <string name="health_bmi">شاخص توده بدنی تقریبی: %1$s</string><string name="health_energy">انرژی تخمینی برای حفظ وزن: روزانه %1$d کیلوکالری</string><string name="health_target">انرژی نمونه بر اساس هدف: روزانه %1$d کیلوکالری</string>
+    <string name="health_estimate_caveat">این اعداد تخمین‌های تقریبی هستند، نه اندازه‌گیری دقیق یا نسخه درمانی. نیاز واقعی افراد می‌تواند تفاوت زیادی داشته باشد.</string>
+    <string name="health_daily_plan">نمونه برنامه غذایی متعادل روزانه</string>
+    <string name="meal_breakfast">صبحانه</string><string name="meal_lunch">ناهار</string><string name="meal_snack">میان‌وعده</string><string name="meal_dinner">شام</string>
+    <string name="meal_breakfast_text">نان سبوس‌دار، تخم‌مرغ، خیار و گوجه به همراه ماست ساده.</string>
+    <string name="meal_lunch_text">مرغ کبابی، مقدار متعادل برنج، سالاد و ماست ساده.</string>
+    <string name="meal_snack_text">یک میوه فصل و مقدار کمی مغزها و آجیل بدون نمک.</string>
+    <string name="meal_dinner_text">سوپ عدس یا خوراک لوبیا همراه نان سبوس‌دار و سبزیجات.</string>
+    <string name="meal_veg_breakfast">نان سبوس‌دار، پنیر، گردو، خیار و گوجه.</string>
+    <string name="meal_veg_lunch">خوراک لوبیا و سبزیجات، مقدار متعادل برنج و سالاد.</string>
+    <string name="meal_veg_dinner">سوپ عدس با نان سبوس‌دار، ماست و سبزیجات.</string>
+    <string name="health_plan_note">این فقط یک نمونه عمومی است، نه نسخه درمانی شخصی. مقدار غذا را با توجه به گرسنگی، فرهنگ غذایی، بودجه و نظر متخصص تنظیم کنید. غذاهای متنوع و کم‌فرآوری‌شده را ترجیح دهید و نمک، قند آزاد و چربی‌های ناسالم را محدود کنید.</string>
+
 </resources>
