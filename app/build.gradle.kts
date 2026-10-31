@@ -24,5 +24,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
+    // Bundled on-device model: available without a separate model download.
+    implementation("com.google.mlkit:image-labeling:17.0.9")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
