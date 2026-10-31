@@ -118,6 +118,7 @@ fun HealthScreen(onBack: () -> Unit) {
                         a == null || h == null || w == null -> context.getString(R.string.health_invalid)
                         a !in 18..75 || h !in 120.0..220.0 || w !in 35.0..250.0 -> context.getString(R.string.health_out_of_range)
                         hasMedicalCondition -> context.getString(R.string.health_medical_block)
+                        ((w / ((h / 100.0) * (h / 100.0))) !in 18.5..30.0) && goal != Goal.MAINTAIN -> context.getString(R.string.health_bmi_goal_block)
                         else -> ""
                     }
                     if (error.isBlank()) {
