@@ -48,7 +48,7 @@ private fun SmartMonitorApp() {
     var showFleet by remember { mutableStateOf(false) }
     var showHealth by remember { mutableStateOf(false) }
     var showMusic by remember { mutableStateOf(false) }
-    var showLearning by remember { mutableStateOf(false) }
+    var showLearning by remember { mutableStateOf(false) }\n    var showSettings by remember { mutableStateOf(false) }
     val tools = listOf(
         ToolItem(R.string.health_title, Icons.Default.Favorite, Color(0xFFE84B62)),
         ToolItem(R.string.music_title, Icons.Default.MusicNote, Color(0xFF18A879)),
@@ -86,7 +86,7 @@ private fun SmartMonitorApp() {
                         NavigationBarItem(selected = true, onClick = { selected = 0 }, icon = { Icon(Icons.Default.Home, null) }, label = { Text(stringResource(R.string.home)) })
                         NavigationBarItem(selected = false, onClick = { selected = R.string.reports }, icon = { Icon(Icons.Default.BarChart, null) }, label = { Text(stringResource(R.string.reports)) })
                         NavigationBarItem(selected = false, onClick = { selected = R.string.history }, icon = { Icon(Icons.Default.History, null) }, label = { Text(stringResource(R.string.history)) })
-                        NavigationBarItem(selected = false, onClick = { selected = R.string.settings }, icon = { Icon(Icons.Default.Settings, null) }, label = { Text(stringResource(R.string.settings)) })
+                        NavigationBarItem(selected = showSettings, onClick = { showSettings = true }, icon = { Icon(Icons.Default.Settings, null) }, label = { Text(stringResource(R.string.settings)) })
                     }
                 }
             ) { padding ->
