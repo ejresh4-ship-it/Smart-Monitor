@@ -49,4 +49,31 @@
     <string name="health_source_note">Nutrition guidance will be based on reputable public-health sources and clearly identified estimates.</string>
     <string name="back">Back</string>
 
+
+    <string name="health_intro">Create an adult profile to get an educational meal-plan example based on your goal and activity level.</string>
+    <string name="health_age">Age</string><string name="health_age_unit">years</string>
+    <string name="health_height">Height</string><string name="health_height_unit">cm</string>
+    <string name="health_weight">Weight</string><string name="health_weight_unit">kg</string>
+    <string name="health_sex">Sex used for this estimate</string><string name="health_female">Female</string><string name="health_male">Male</string>
+    <string name="health_activity">Activity level</string>
+    <string name="activity_low">Mostly sitting</string><string name="activity_light">Light activity 1–3 days/week</string><string name="activity_moderate">Moderate activity 3–5 days/week</string><string name="activity_high">Hard activity 6–7 days/week</string>
+    <string name="health_goal">Your goal</string><string name="goal_maintain">Maintain</string><string name="goal_lose">Lose weight</string><string name="goal_gain">Gain weight</string>
+    <string name="health_vegetarian">Prefer vegetarian meals</string><string name="health_medical_flag">I have a medical condition / prescribed diet / pregnancy / eating-disorder history</string>
+    <string name="health_medical_block">For safety, this prototype cannot generate a personalized diet when a medical condition or special clinical circumstance is selected. Please consult your doctor or registered dietitian.</string>
+    <string name="health_invalid">Enter age, height and weight using numbers.</string><string name="health_out_of_range">This planner is designed only for adults aged 18–75. Check that height and weight are entered in cm and kg.</string>
+    <string name="health_make_plan">Calculate and create sample plan</string>
+    <string name="health_estimate_title">Your approximate estimates</string>
+    <string name="health_bmi">BMI estimate: %1$s</string><string name="health_energy">Estimated maintenance energy: %1$d kcal/day</string><string name="health_target">Illustrative goal-based energy: %1$d kcal/day</string>
+    <string name="health_estimate_caveat">These are rough screening estimates, not measurements or a prescription. Individual needs can differ substantially.</string>
+    <string name="health_daily_plan">Sample balanced day</string>
+    <string name="meal_breakfast">Breakfast</string><string name="meal_lunch">Lunch</string><string name="meal_snack">Snack</string><string name="meal_dinner">Dinner</string>
+    <string name="meal_breakfast_text">Whole-wheat bread, egg, cucumber and tomato, plus plain yogurt.</string>
+    <string name="meal_lunch_text">Grilled chicken, a moderate serving of rice, salad and plain yogurt.</string>
+    <string name="meal_snack_text">One seasonal fruit and a small handful of unsalted nuts.</string>
+    <string name="meal_dinner_text">Lentil soup or bean stew with whole-grain bread and vegetables.</string>
+    <string name="meal_veg_breakfast">Whole-wheat bread, cheese, walnuts, cucumber and tomato.</string>
+    <string name="meal_veg_lunch">Bean and vegetable stew, a moderate serving of rice and salad.</string>
+    <string name="meal_veg_dinner">Lentil soup with whole-grain bread, yogurt and vegetables.</string>
+    <string name="health_plan_note">This is a general example, not a medically tailored prescription. Adjust portions to hunger, culture, budget and professional advice. Choose varied minimally processed foods and limit excess salt, free sugars and unhealthy fats.</string>
+
 </resources>
