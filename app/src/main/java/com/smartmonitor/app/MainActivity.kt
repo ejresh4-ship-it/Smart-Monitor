@@ -1,7 +1,5 @@
 package com.smartmonitor.app
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -45,6 +43,7 @@ private data class ToolItem(val title: Int, val icon: ImageVector, val color: Co
 private fun SmartMonitorApp() {
     var selected by remember { mutableIntStateOf(0) }
     var address by remember { mutableStateOf("https://eta.ahvaz.ir") }
+    var showBrowser by remember { mutableStateOf(false) }
     val context = LocalContext.current
     val tools = listOf(
         ToolItem(R.string.monitor_apps, Icons.Default.PhoneAndroid, Color(0xFFE84B62)),
@@ -59,91 +58,100 @@ private fun SmartMonitorApp() {
     )
 
     MaterialTheme(colorScheme = lightColorScheme(primary = Blue, secondary = Color(0xFF00A98F), background = Canvas)) {
-        Scaffold(
-            containerColor = Canvas,
-            bottomBar = {
-                NavigationBar(containerColor = Color.White) {
-                    NavigationBarItem(selected = true, onClick = { selected = 0 }, icon = { Icon(Icons.Default.Home, null) }, label = { Text(stringResource(R.string.home)) })
-                    NavigationBarItem(selected = false, onClick = { selected = R.string.reports }, icon = { Icon(Icons.Default.BarChart, null) }, label = { Text(stringResource(R.string.reports)) })
-                    NavigationBarItem(selected = false, onClick = { selected = R.string.history }, icon = { Icon(Icons.Default.History, null) }, label = { Text(stringResource(R.string.history)) })
-                    NavigationBarItem(selected = false, onClick = { selected = R.string.settings }, icon = { Icon(Icons.Default.Settings, null) }, label = { Text(stringResource(R.string.settings)) })
-                }
-            }
-        ) { padding ->
-            Column(Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp)) {
-                Spacer(Modifier.height(10.dp))
-                Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                    Column {
-                        Text(stringResource(R.string.brand_title), fontSize = 25.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
-                        Text(stringResource(R.string.brand_subtitle), color = Color.Gray, fontSize = 12.sp)
-                    }
-                    TextButton(onClick = {
-                        val current = resources.configuration.locales[0].language
-                        AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(if (current == "fa") "en" else "fa"))
-                    }) {
-                        Icon(Icons.Default.Translate, contentDescription = stringResource(R.string.language))
-                        Spacer(Modifier.width(4.dp))
-                        Text(stringResource(R.string.language_toggle), fontWeight = FontWeight.Bold)
-                    }
-                }
-                Spacer(Modifier.height(14.dp))
-                Row(
-                    Modifier.fillMaxWidth().background(Brush.horizontalGradient(listOf(Navy, Blue)), RoundedCornerShape(22.dp)).padding(18.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(Modifier.weight(1f)) {
-                        Text(stringResource(R.string.welcome_title), color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.Bold)
-                        Spacer(Modifier.height(5.dp))
-                        Text(stringResource(R.string.welcome_body), color = Color.White.copy(alpha = .9f), fontSize = 13.sp)
-                        Spacer(Modifier.height(12.dp))
-                        Surface(color = Color.White.copy(alpha = .18f), shape = RoundedCornerShape(50)) {
-                            Text("●  ${stringResource(R.string.ready)}", color = Color.White, modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp), fontSize = 12.sp)
-                        }
-                    }
-                    Icon(Icons.Default.Security, contentDescription = null, tint = Color.White, modifier = Modifier.size(58.dp))
-                }
-                Spacer(Modifier.height(20.dp))
-                Text(stringResource(R.string.services), fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Navy)
-                Spacer(Modifier.height(12.dp))
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(3),
-                    modifier = Modifier.weight(1f),
-                    contentPadding = PaddingValues(bottom = 12.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(tools) { item -> ToolCard(item) { selected = item.title } }
-                }
-                Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(3.dp)) {
-                    Column(Modifier.padding(14.dp)) {
-                        Text(stringResource(R.string.quick_watch), color = Navy, fontSize = 17.sp, fontWeight = FontWeight.Bold)
-                        Spacer(Modifier.height(9.dp))
-                        OutlinedTextField(value = address, onValueChange = { address = it }, modifier = Modifier.fillMaxWidth(), singleLine = true, placeholder = { Text(stringResource(R.string.url_hint)) })
-                        Spacer(Modifier.height(9.dp))
-                        Button(
-                            onClick = {
-                                val target = if (address.startsWith("http://") || address.startsWith("https://")) address else "https://$address"
-                                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(target)))
-                            },
-                            modifier = Modifier.fillMaxWidth(),
-                            colors = ButtonDefaults.buttonColors(containerColor = Blue)
-                        ) {
-                            Icon(Icons.Default.OpenInBrowser, null)
-                            Spacer(Modifier.width(8.dp))
-                            Text(stringResource(R.string.start))
-                        }
-                    }
-                }
-                Text(stringResource(R.string.prototype_note), color = Color.Gray, fontSize = 10.sp, modifier = Modifier.padding(vertical = 7.dp))
-            }
-        }
-        if (selected != 0) {
-            AlertDialog(
-                onDismissRequest = { selected = 0 },
-                confirmButton = { TextButton(onClick = { selected = 0 }) { Text("OK") } },
-                title = { Text(stringResource(selected)) },
-                text = { Text(stringResource(R.string.prototype_note)) }
+        if (showBrowser) {
+            BrowserScreen(
+                initialUrl = address,
+                onClose = { showBrowser = false }
             )
+        } else {
+            Scaffold(
+                containerColor = Canvas,
+                bottomBar = {
+                    NavigationBar(containerColor = Color.White) {
+                        NavigationBarItem(selected = true, onClick = { selected = 0 }, icon = { Icon(Icons.Default.Home, null) }, label = { Text(stringResource(R.string.home)) })
+                        NavigationBarItem(selected = false, onClick = { selected = R.string.reports }, icon = { Icon(Icons.Default.BarChart, null) }, label = { Text(stringResource(R.string.reports)) })
+                        NavigationBarItem(selected = false, onClick = { selected = R.string.history }, icon = { Icon(Icons.Default.History, null) }, label = { Text(stringResource(R.string.history)) })
+                        NavigationBarItem(selected = false, onClick = { selected = R.string.settings }, icon = { Icon(Icons.Default.Settings, null) }, label = { Text(stringResource(R.string.settings)) })
+                    }
+                }
+            ) { padding ->
+                Column(Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp)) {
+                    Spacer(Modifier.height(10.dp))
+                    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                        Column {
+                            Text(stringResource(R.string.brand_title), fontSize = 25.sp, fontWeight = FontWeight.ExtraBold, color = Navy)
+                            Text(stringResource(R.string.brand_subtitle), color = Color.Gray, fontSize = 12.sp)
+                        }
+                        TextButton(onClick = {
+                            val current = resources.configuration.locales[0].language
+                            AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(if (current == "fa") "en" else "fa"))
+                        }) {
+                            Icon(Icons.Default.Translate, contentDescription = stringResource(R.string.language))
+                            Spacer(Modifier.width(4.dp))
+                            Text(stringResource(R.string.language_toggle), fontWeight = FontWeight.Bold)
+                        }
+                    }
+                    Spacer(Modifier.height(14.dp))
+                    Row(
+                        Modifier.fillMaxWidth().background(Brush.horizontalGradient(listOf(Navy, Blue)), RoundedCornerShape(22.dp)).padding(18.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(Modifier.weight(1f)) {
+                            Text(stringResource(R.string.welcome_title), color = Color.White, fontSize = 21.sp, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.height(5.dp))
+                            Text(stringResource(R.string.welcome_body), color = Color.White.copy(alpha = .9f), fontSize = 13.sp)
+                            Spacer(Modifier.height(12.dp))
+                            Surface(color = Color.White.copy(alpha = .18f), shape = RoundedCornerShape(50)) {
+                                Text("●  ${stringResource(R.string.ready)}", color = Color.White, modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp), fontSize = 12.sp)
+                            }
+                        }
+                        Icon(Icons.Default.Security, contentDescription = null, tint = Color.White, modifier = Modifier.size(58.dp))
+                    }
+                    Spacer(Modifier.height(20.dp))
+                    Text(stringResource(R.string.services), fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Navy)
+                    Spacer(Modifier.height(12.dp))
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(3),
+                        modifier = Modifier.weight(1f),
+                        contentPadding = PaddingValues(bottom = 12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        items(tools) { item ->
+                            ToolCard(item) {
+                                if (item.title == R.string.browser) showBrowser = true
+                                else selected = item.title
+                            }
+                        }
+                    }
+                    Card(shape = RoundedCornerShape(22.dp), colors = CardDefaults.cardColors(containerColor = Color.White), elevation = CardDefaults.cardElevation(3.dp)) {
+                        Column(Modifier.padding(14.dp)) {
+                            Text(stringResource(R.string.quick_watch), color = Navy, fontSize = 17.sp, fontWeight = FontWeight.Bold)
+                            Spacer(Modifier.height(9.dp))
+                            OutlinedTextField(value = address, onValueChange = { address = it }, modifier = Modifier.fillMaxWidth(), singleLine = true, placeholder = { Text(stringResource(R.string.url_hint)) })
+                            Spacer(Modifier.height(9.dp))
+                            Button(
+                                onClick = { showBrowser = true },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(containerColor = Blue)
+                            ) {
+                                Icon(Icons.Default.Public, null)
+                                Spacer(Modifier.width(8.dp))
+                                Text(stringResource(R.string.start))
+                            }
+                        }
+                    }
+                    Text(stringResource(R.string.prototype_note), color = Color.Gray, fontSize = 10.sp, modifier = Modifier.padding(vertical = 7.dp))
+                }
+            }
+            if (selected != 0) {
+                AlertDialog(
+                    onDismissRequest = { selected = 0 },
+                    confirmButton = { TextButton(onClick = { selected = 0 }) { Text("OK") } },
+                    title = { Text(stringResource(selected)) },
+                    text = { Text(stringResource(R.string.prototype_note)) }
+                )
+            }
         }
     }
 }
