@@ -81,4 +81,5 @@
     <string name="health_lose_note">For a weight-loss goal, avoid crash diets or skipping meals. Keep portions comfortable, include vegetables and protein-rich foods, and review progress gradually with a professional if unsure.</string>
     <string name="health_gain_note">For a weight-gain goal, consider an additional nourishing snack such as yogurt with oats or a peanut-butter sandwich. Avoid relying on sugary drinks or ultra-processed foods.</string>
 
+    <string name="health_bmi_goal_block">Your BMI estimate is outside this prototype’s screening range. It will not suggest a weight-change plan; please discuss your goal with a qualified professional.</string>
 </resources>
