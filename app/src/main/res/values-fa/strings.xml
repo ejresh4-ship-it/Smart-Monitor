@@ -82,4 +82,44 @@
     <string name="health_gain_note">برای هدف افزایش وزن می‌توانید یک میان‌وعده مغذی مانند ماست و جو دوسر یا ساندویچ کره بادام‌زمینی اضافه کنید. افزایش وزن را به نوشیدنی شیرین و خوراکی‌های فوق‌فرآوری‌شده وابسته نکنید.</string>
 
     <string name="health_bmi_goal_block">تخمین BMI شما خارج از محدوده غربالگری این نسخه است. برنامه برای تغییر وزن پیشنهاد خودکار نمی‌دهد؛ لطفاً هدف خود را با متخصص واجد صلاحیت بررسی کنید.</string>
+
+    <string name="food_scan_toggle">محاسبه کالری با عکس غذا</string>
+    <string name="food_scan_hide">بستن اسکنر غذا</string>
+    <string name="food_scan_title">اسکن غذا از روی عکس</string>
+    <string name="food_scan_intro">عکس بگیر یا از گالری انتخاب کن. مدل روی گوشی برچسب‌های عمومی تصویر را پیشنهاد می‌دهد؛ نام غذا را انتخاب یا اصلاح کن و وزن تقریبی آن را وارد کن.</string>
+    <string name="food_take_photo">گرفتن عکس</string>
+    <string name="food_choose_photo">گالری</string>
+    <string name="food_photo_description">عکس غذای انتخاب‌شده</string>
+    <string name="food_analyzing">در حال تحلیل عکس روی همین گوشی…</string>
+    <string name="food_detected_labels">برچسب‌های عمومی تشخیص تصویر</string>
+    <string name="food_no_labels">برچسب مفیدی تشخیص داده نشد. نوع غذا را دستی انتخاب کن.</string>
+    <string name="food_scan_failed">تحلیل تصویر ناموفق بود. همچنان می‌توانی غذا را دستی انتخاب کنی.</string>
+    <string name="food_image_load_failed">خواندن این عکس ممکن نشد. عکس دیگری را امتحان کن.</string>
+    <string name="food_choose_type">نوع غذا (می‌توانی پیشنهاد را اصلاح کنی)</string>
+    <string name="food_amount_grams">وزن تقریبی وعده</string>
+    <string name="food_gram_unit">گرم</string>
+    <string name="food_estimated_result">ارزش غذایی تخمینی این وعده</string>
+    <string name="food_calorie_result">%1$d کیلوکالری</string>
+    <string name="food_macro_result">پروتئین: %1$s گرم • کربوهیدرات: %2$s گرم • چربی: %3$s گرم</string>
+    <string name="food_per_100g">مقدار مرجع: %1$d کیلوکالری در هر ۱۰۰ گرم</string>
+    <string name="food_add_to_log">ثبت در دفتر غذای امروز</string>
+    <string name="food_saved">به دفتر غذای امروز اضافه شد</string>
+    <string name="food_today_total">کالری ثبت‌شده امروز: %1$d کیلوکالری</string>
+    <string name="food_amount_validation">وزن وعده را بین ۱۰ تا ۲۰۰۰ گرم وارد کن.</string>
+    <string name="food_accuracy_note">کالری و درشت‌مغذی‌ها بر اساس مقادیر مرجع تقریبی در هر ۱۰۰ گرم محاسبه می‌شوند و اندازه‌گیری آزمایشگاهی نیستند. عکس نمی‌تواند وزن، روغن، سس و مواد پنهان را با اطمینان مشخص کند. مدل تصویر عمومی است و ممکن است غذاهای ایرانی را دقیق تشخیص ندهد؛ لطفاً نوع و مقدار غذا را خودت اصلاح کن. تحلیل عکس روی همین گوشی انجام می‌شود.</string>
+    <string name="food_rice">برنج پخته</string>
+    <string name="food_bread">نان سبوس‌دار / نان تخت</string>
+    <string name="food_chicken">مرغ پخته</string>
+    <string name="food_fish">ماهی</string>
+    <string name="food_salad">سالاد ساده سبزیجات</string>
+    <string name="food_soup">سوپ</string>
+    <string name="food_pasta">ماکارونی پخته</string>
+    <string name="food_pizza">پیتزا</string>
+    <string name="food_egg">تخم‌مرغ</string>
+    <string name="food_potato">سیب‌زمینی آب‌پز</string>
+    <string name="food_ghormeh">قورمه‌سبزی (دستور پخت تقریبی)</string>
+    <string name="food_gheimeh">خورشت قیمه (دستور پخت تقریبی)</string>
+    <string name="food_kebab">کباب کوبیده (دستور پخت تقریبی)</string>
+    <string name="food_adas_polo">عدس‌پلو (دستور پخت تقریبی)</string>
+    <string name="food_lentil">خوراک عدس / لوبیا</string>
 </resources>
