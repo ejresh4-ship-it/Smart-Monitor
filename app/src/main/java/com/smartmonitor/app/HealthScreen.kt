@@ -81,6 +81,7 @@ fun HealthScreen(onBack: () -> Unit) {
             if (showFoodScanner) {
                 HealthFoodScanner()
             }
+            ExercisePlanSection()
             HealthInput(stringResource(R.string.health_age), age, { age = it }, stringResource(R.string.health_age_unit))
             HealthInput(stringResource(R.string.health_height), height, { height = it }, stringResource(R.string.health_height_unit))
             HealthInput(stringResource(R.string.health_weight), weight, { weight = it }, stringResource(R.string.health_weight_unit))
