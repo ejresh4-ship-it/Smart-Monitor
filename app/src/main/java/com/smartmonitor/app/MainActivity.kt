@@ -45,8 +45,10 @@ private fun SmartMonitorApp() {
     var showBrowser by remember { mutableStateOf(false) }
     var showFleet by remember { mutableStateOf(false) }
     var showHealth by remember { mutableStateOf(false) }
+    var showMusic by remember { mutableStateOf(false) }
     val tools = listOf(
         ToolItem(R.string.health_title, Icons.Default.Favorite, Color(0xFFE84B62)),
+        ToolItem(R.string.music_title, Icons.Default.MusicNote, Color(0xFF18A879)),
         ToolItem(R.string.monitor_apps, Icons.Default.PhoneAndroid, Color(0xFFE84B62)),
         ToolItem(R.string.browser, Icons.Default.Public, Color(0xFF168BD5)),
         ToolItem(R.string.analysis, Icons.Default.Insights, Color(0xFF8155D9)),
@@ -68,6 +70,8 @@ private fun SmartMonitorApp() {
             BusFleetScreen(onBack = { showFleet = false })
         } else if (showHealth) {
             HealthScreen(onBack = { showHealth = false })
+        } else if (showMusic) {
+            MusicScreen(onBack = { showMusic = false })
         } else {
             Scaffold(
                 containerColor = Canvas,
@@ -126,6 +130,7 @@ private fun SmartMonitorApp() {
                             ToolCard(item) {
                                 if (item.title == R.string.health_title) showHealth = true
                                 else if (item.title == R.string.health_title) showHealth = true
+                                else if (item.title == R.string.music_title) showMusic = true
                                 else if (item.title == R.string.browser) showBrowser = true
                                 else if (item.title == R.string.monitor_apps) showFleet = true
                                 else selected = item.title
