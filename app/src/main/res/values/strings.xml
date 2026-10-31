@@ -30,4 +30,12 @@
     <string name="browser_https_only">For security, Smart Browser currently accepts HTTPS website addresses only.</string>
     <string name="trusted_monitor_site">Ahvaz monitor site</string>
     <string name="standard_web_page">Web page</string>
+    <string name="fleet_title">Bus fleet monitor</string>
+    <string name="fleet_count">%1$d buses in your watchlist</string>
+    <string name="bus_code_hint">Bus code</string>
+    <string name="add_bus">Add bus</string>
+    <string name="bus_code_label">Bus %1$s</string>
+    <string name="bus_waiting_source">Waiting for live source connection</string>
+    <string name="remove_bus">Remove bus</string>
+    <string name="fleet_source_note">Add as many bus codes as you need. Codes are saved on this phone. Live positions and status are not shown until the Ahvaz site data connection is verified.</string>
 </resources>
