@@ -96,15 +96,15 @@ fun MusicScreen(onBack:()->Unit) {
         controllerFuture.addListener({ try { player = controllerFuture.get() } catch (_:Exception) { } }, java.util.concurrent.Executor { it.run() })
         onDispose { MediaController.releaseFuture(controllerFuture) }
     }
-    DisposableEffect(player) {
-        val listener=object:Player.Listener { override fun onIsPlayingChanged(value:Boolean){playing=value} }
+    DisposableEffect(player, tracks) {
+        val listener=object:Player.Listener { override fun onIsPlayingChanged(value:Boolean){playing=value}; override fun onMediaItemTransition(item:MediaItem?, reason:Int) { current = tracks.firstOrNull { it.id == item?.mediaId } } }
         player?.addListener(listener)
         onDispose { player?.removeListener(listener) }
     }
     val shown=if(favoritesOnly) tracks.filter{favorites.contains(it.id)} else tracks
     Scaffold(
         topBar={ TopAppBar(title={Column{Text(stringResource(R.string.music_title),fontWeight=FontWeight.Bold);Text(stringResource(R.string.music_subtitle),fontSize=11.sp)}},navigationIcon={IconButton(onClick=onBack){Icon(Icons.Default.ArrowBack,null)}},actions={IconButton(onClick={favoritesOnly=!favoritesOnly}){Icon(if(favoritesOnly) Icons.Default.Favorite else Icons.Default.FavoriteBorder,null)}}) },
-        bottomBar={ current?.let{t-> Surface(shadowElevation=8.dp,color=Color(0xFF17333B)){Row(Modifier.fillMaxWidth().padding(12.dp),verticalAlignment=Alignment.CenterVertically){Icon(Icons.Default.MusicNote,null,tint=Color(0xFF64E6BE),modifier=Modifier.size(32.dp));Column(Modifier.weight(1f).padding(horizontal=10.dp)){Text(t.title,color=Color.White,maxLines=1,fontWeight=FontWeight.Bold);Text(t.artist,color=Color.LightGray,fontSize=12.sp,maxLines=1)};IconButton(onClick={if(player?.isPlaying == true) player?.pause() else player?.play()}){Icon(if(playing)Icons.Default.Pause else Icons.Default.PlayArrow,null,tint=Color.White)}}}} }
+        bottomBar={ current?.let{t-> Surface(shadowElevation=8.dp,color=Color(0xFF17333B)){Row(Modifier.fillMaxWidth().padding(12.dp),verticalAlignment=Alignment.CenterVertically){Icon(Icons.Default.MusicNote,null,tint=Color(0xFF64E6BE),modifier=Modifier.size(32.dp));Column(Modifier.weight(1f).padding(horizontal=10.dp)){Text(t.title,color=Color.White,maxLines=1,fontWeight=FontWeight.Bold);Text(t.artist,color=Color.LightGray,fontSize=12.sp,maxLines=1)};IconButton(onClick={player?.seekToPreviousMediaItem()}){Icon(Icons.Default.SkipPrevious,null,tint=Color.White)};IconButton(onClick={if(player?.isPlaying == true) player?.pause() else player?.play()}){Icon(if(playing)Icons.Default.Pause else Icons.Default.PlayArrow,null,tint=Color.White)};IconButton(onClick={player?.seekToNextMediaItem()}){Icon(Icons.Default.SkipNext,null,tint=Color.White)}}}} }
     ){padding->
         Column(Modifier.fillMaxSize().padding(padding).background(Color(0xFFF4F8F7)).padding(horizontal=14.dp)){
             Spacer(Modifier.height(10.dp))
