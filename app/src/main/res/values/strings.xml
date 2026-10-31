@@ -122,4 +122,11 @@
     <string name="food_kebab">Kebab koobideh (approximate recipe)</string>
     <string name="food_adas_polo">Adas polo (approximate recipe)</string>
     <string name="food_lentil">Lentil / bean stew</string>
+
+    <string name="music_title">Music</string><string name="music_subtitle">Discover and stream independent music</string>
+    <string name="music_trending">Trending</string><string name="music_latest">New releases</string><string name="music_search">Search tracks or artists</string><string name="music_categories">Genres</string><string name="music_all">All</string>
+    <string name="music_genre_pop">Pop</string><string name="music_genre_rap">Rap</string><string name="music_genre_electronic">Electronic</string><string name="music_genre_rock">Rock</string><string name="music_genre_rnb">R&amp;B</string><string name="music_genre_jazz">Jazz</string><string name="music_genre_classical">Classical</string>
+    <string name="music_loading">Loading music…</string><string name="music_empty">No tracks found. Try another genre or search.</string><string name="music_error">Could not connect to the music catalog. Check your internet connection and retry.</string><string name="music_retry">Retry</string><string name="music_favorites">Favorites</string>
+    <string name="music_source_note">Catalog and streams are provided by Audius. It mainly contains independent artists; track availability and rights depend on each creator and regional access. Smart Monitor does not host audio files.</string>
+
 </resources>
