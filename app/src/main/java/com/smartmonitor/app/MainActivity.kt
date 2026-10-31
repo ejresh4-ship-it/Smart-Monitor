@@ -43,6 +43,7 @@ private fun SmartMonitorApp() {
     var selected by remember { mutableIntStateOf(0) }
     var address by remember { mutableStateOf("https://eta.ahvaz.ir") }
     var showBrowser by remember { mutableStateOf(false) }
+    var showFleet by remember { mutableStateOf(false) }
     val tools = listOf(
         ToolItem(R.string.monitor_apps, Icons.Default.PhoneAndroid, Color(0xFFE84B62)),
         ToolItem(R.string.browser, Icons.Default.Public, Color(0xFF168BD5)),
@@ -61,6 +62,8 @@ private fun SmartMonitorApp() {
                 initialUrl = address,
                 onClose = { showBrowser = false }
             )
+        } else if (showFleet) {
+            BusFleetScreen(onBack = { showFleet = false })
         } else {
             Scaffold(
                 containerColor = Canvas,
@@ -118,6 +121,7 @@ private fun SmartMonitorApp() {
                         items(tools) { item ->
                             ToolCard(item) {
                                 if (item.title == R.string.browser) showBrowser = true
+                                else if (item.title == R.string.monitor_apps) showFleet = true
                                 else selected = item.title
                             }
                         }
