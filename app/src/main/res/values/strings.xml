@@ -129,4 +129,4 @@
     <string name="music_loading">Loading music…</string><string name="music_empty">No tracks found. Try another genre or search.</string><string name="music_error">Could not connect to the music catalog. Check your internet connection and retry.</string><string name="music_retry">Retry</string><string name="music_favorites">Favorites</string>
     <string name="music_source_note">Catalog and streams are provided by Audius. It mainly contains independent artists; track availability and rights depend on each creator and regional access. Smart Monitor does not host audio files.</string>
 
-</resources>
+    <string name="learning_title">English learning</string>\n</resources>
