@@ -147,6 +147,7 @@ fun HealthScreen(onBack: () -> Unit) {
                         Text(stringResource(R.string.health_energy, maintenance))
                         Text(stringResource(R.string.health_target, target))
                         Text(stringResource(R.string.health_estimate_caveat))
+                        if (bmi < 18.5 || bmi >= 30.0) Text(stringResource(R.string.health_bmi_caution), color = MaterialTheme.colorScheme.error)
                     }
                 }
                 Text(stringResource(R.string.health_daily_plan), fontSize = 18.sp, fontWeight = FontWeight.Bold)
@@ -154,7 +155,11 @@ fun HealthScreen(onBack: () -> Unit) {
                 MealCard(stringResource(R.string.meal_lunch), if (vegetarian) stringResource(R.string.meal_veg_lunch) else stringResource(R.string.meal_lunch_text))
                 MealCard(stringResource(R.string.meal_snack), stringResource(R.string.meal_snack_text))
                 MealCard(stringResource(R.string.meal_dinner), if (vegetarian) stringResource(R.string.meal_veg_dinner) else stringResource(R.string.meal_dinner_text))
-                Text(stringResource(R.string.health_plan_note))
+                Text(stringResource(when (goal) {
+                    Goal.MAINTAIN -> R.string.health_plan_note
+                    Goal.LOSE -> R.string.health_lose_note
+                    Goal.GAIN -> R.string.health_gain_note
+                }))
             }
         }
     }
