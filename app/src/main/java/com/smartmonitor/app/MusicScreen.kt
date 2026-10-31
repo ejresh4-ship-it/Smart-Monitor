@@ -2,6 +2,9 @@ package com.smartmonitor.app
 
 import android.content.Context
 import android.content.ComponentName
+import android.net.Uri
+import androidx.media3.common.MediaMetadata
+import coil.compose.AsyncImage
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import androidx.compose.foundation.background
@@ -37,7 +40,7 @@ import java.net.URL
 
 private const val AUDIO_API = "https://discoveryprovider.audius.co/v1"
 private const val AUDIO_APP = "SmartMonitorAndroid"
-private data class MusicTrack(val id:String,val title:String,val artist:String,val duration:Int)
+private data class MusicTrack(val id:String,val title:String,val artist:String,val duration:Int,val artwork:String?)
 
 private suspend fun fetchMusic(query:String, genre:String, latest:Boolean):List<MusicTrack> = withContext(Dispatchers.IO) {
     val path = when {
@@ -55,7 +58,7 @@ private suspend fun fetchMusic(query:String, genre:String, latest:Boolean):List<
             for(i in 0 until data.length()){
                 val t=data.optJSONObject(i) ?: continue
                 val id=t.optString("id").takeIf{it.isNotBlank()} ?: t.optString("track_id")
-                if(id.isNotBlank()) add(MusicTrack(id,t.optString("title","Untitled"),t.optJSONObject("user")?.optString("name","Unknown artist") ?: "Unknown artist",t.optInt("duration")))
+                if(id.isNotBlank()) add(MusicTrack(id,t.optString("title","Untitled"),t.optJSONObject("user")?.optString("name","Unknown artist") ?: "Unknown artist",t.optInt("duration"),t.optJSONObject("artwork")?.optString("480x480")?.takeIf { it.isNotBlank() }))
             }
         }
     } finally { c.disconnect() }
@@ -122,10 +125,19 @@ fun MusicScreen(onBack:()->Unit) {
                 items(shown,key={it.id}){track->
                     Row(Modifier.fillMaxWidth().background(Color.White,RoundedCornerShape(14.dp)).clickable{
                         current=track
-                        player?.setMediaItem(MediaItem.fromUri("$AUDIO_API/tracks/${track.id}/stream?app_name=$AUDIO_APP"))
-                        player?.prepare();player?.play()
+                        val queue = shown.map { item ->
+                            val metadata = MediaMetadata.Builder().setTitle(item.title).setArtist(item.artist)
+                                .apply { item.artwork?.let { setArtworkUri(Uri.parse(it)) } }.build()
+                            MediaItem.Builder().setMediaId(item.id)
+                                .setUri("$AUDIO_API/tracks/${item.id}/stream?app_name=$AUDIO_APP")
+                                .setMediaMetadata(metadata).build()
+                        }
+                        val startAt = shown.indexOfFirst { it.id == track.id }.coerceAtLeast(0)
+                        player?.setMediaItems(queue, startAt, 0L)
+                        player?.prepare()
+                        player?.play()
                     }.padding(10.dp),verticalAlignment=Alignment.CenterVertically){
-                        Box(Modifier.size(46.dp).background(Brush.linearGradient(listOf(Color(0xFF178D76),Color(0xFF173D59))),RoundedCornerShape(11.dp)),contentAlignment=Alignment.Center){Icon(Icons.Default.MusicNote,null,tint=Color.White)}
+                        if(track.artwork!=null) AsyncImage(model=track.artwork,contentDescription=null,modifier=Modifier.size(46.dp)) else Box(Modifier.size(46.dp).background(Brush.linearGradient(listOf(Color(0xFF178D76),Color(0xFF173D59))),RoundedCornerShape(11.dp)),contentAlignment=Alignment.Center){Icon(Icons.Default.MusicNote,null,tint=Color.White)}
                         Column(Modifier.weight(1f).padding(horizontal=9.dp)){Text(track.title,maxLines=1,fontWeight=FontWeight.SemiBold,color=Color(0xFF18343B));Text(track.artist,maxLines=1,fontSize=12.sp,color=Color.Gray)}
                         IconButton(onClick={val next=favorites.toMutableSet();if(!next.add(track.id))next.remove(track.id);favorites=next;prefs.edit().putStringSet("ids",next).apply()}){Icon(if(favorites.contains(track.id))Icons.Default.Favorite else Icons.Default.FavoriteBorder,null,tint=if(favorites.contains(track.id))Color(0xFFE44E75) else Color.Gray)}
                         Icon(Icons.Default.PlayArrow,null,tint=Color(0xFF178D76))
