@@ -122,4 +122,11 @@
     <string name="food_kebab">کباب کوبیده (دستور پخت تقریبی)</string>
     <string name="food_adas_polo">عدس‌پلو (دستور پخت تقریبی)</string>
     <string name="food_lentil">خوراک عدس / لوبیا</string>
+
+    <string name="music_title">موزیک آنلاین</string><string name="music_subtitle">کشف و پخش موسیقی مستقل</string>
+    <string name="music_trending">ترند و محبوب</string><string name="music_latest">تازه‌ها</string><string name="music_search">جست‌وجوی آهنگ یا خواننده</string><string name="music_categories">دسته‌بندی سبک‌ها</string><string name="music_all">همه</string>
+    <string name="music_genre_pop">پاپ</string><string name="music_genre_rap">رپ</string><string name="music_genre_electronic">الکترونیک</string><string name="music_genre_rock">راک</string><string name="music_genre_rnb">آراندبی</string><string name="music_genre_jazz">جاز</string><string name="music_genre_classical">کلاسیک</string>
+    <string name="music_loading">در حال دریافت موسیقی…</string><string name="music_empty">آهنگی پیدا نشد؛ سبک یا عبارت دیگری را امتحان کن.</string><string name="music_error">اتصال به آرشیو موسیقی برقرار نشد. اینترنت را بررسی و دوباره تلاش کن.</string><string name="music_retry">تلاش دوباره</string><string name="music_favorites">علاقه‌مندی‌ها</string>
+    <string name="music_source_note">فهرست و پخش از Audius دریافت می‌شود. این آرشیو بیشتر شامل هنرمندان مستقل است؛ موجود بودن هر قطعه و حقوق پخش آن به سازنده و دسترسی منطقه‌ای بستگی دارد. فایل صوتی روی سرور Smart Monitor میزبانی نمی‌شود.</string>
+
 </resources>
