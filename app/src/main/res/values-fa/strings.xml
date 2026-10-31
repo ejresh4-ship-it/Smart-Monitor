@@ -38,4 +38,14 @@
     <string name="bus_waiting_source">در انتظار اتصال منبع اطلاعات زنده</string>
     <string name="remove_bus">حذف اتوبوس</string>
     <string name="fleet_source_note">هر تعداد کد اتوبوس که لازم داری اضافه کن. کدها روی همین گوشی ذخیره می‌شوند. موقعیت و وضعیت زنده تا زمان تأیید اتصال داده‌های سایت اهواز نمایش داده نمی‌شود.</string>
-</resources>
+
+    <string name="health_title">سلامت من</string>
+    <string name="health_warning_title">هشدار مهم سلامت و تغذیه</string>
+    <string name="health_warning_body">پیشنهادهای هوش مصنوعی فقط برای اطلاع‌رسانی و آموزش عمومی هستند و تشخیص، درمان یا جایگزین پزشک و متخصص تغذیه نیستند. اگر بیماری زمینه‌ای دارید، باردار یا شیرده هستید، سابقه اختلال خوردن، حساسیت غذایی یا رژیم تجویزشده دارید، پیش از اجرای توصیه‌های غذایی با متخصص واجد صلاحیت مشورت کنید. این برنامه نباید جایگزین دستور پزشک شود یا تغییر دارو را پیشنهاد کند.</string>
+    <string name="health_warning_accept">متوجه شدم</string>
+    <string name="health_warning_exit">بازگشت</string>
+    <string name="health_ai_title">مربی تغذیه هوشمند</string>
+    <string name="health_ai_coming">برنامه غذایی شخصی و راهنمای تغذیه در حال آماده‌سازی است. تا زمانی که هشدار ایمنی تأیید نشود، هیچ رژیم یا مشاوره پزشکی نمایش داده نخواهد شد.</string>
+    <string name="health_source_note">راهنمای تغذیه بر پایه منابع معتبر سلامت عمومی خواهد بود و تخمین‌ها به‌روشنی مشخص می‌شوند.</string>
+    <string name="back">بازگشت</string>
+\n</resources>
