@@ -15,11 +15,19 @@
     <string name="settings">تنظیمات</string>
     <string name="quick_watch">نظارت سریع</string>
     <string name="url_hint">آدرس سایت یا نام برنامه</string>
-    <string name="start">باز کردن سایت</string>
+    <string name="start">باز کردن در مرورگر هوشمند</string>
     <string name="welcome_title">همیشه در جریان باش!</string>
     <string name="welcome_body">اطلاعات مهمت را هوشمندانه بررسی و دنبال کن.</string>
     <string name="home">خانه</string>
     <string name="language">زبان</string>
     <string name="language_toggle">English</string>
     <string name="prototype_note">رابط اولیه؛ اتصال به منابع اطلاعاتی در مراحل بعد اضافه می‌شود.</string>
+    <string name="close_browser">بستن مرورگر</string>
+    <string name="go">برو</string>
+    <string name="browser_back">صفحه قبل</string>
+    <string name="browser_forward">صفحه بعد</string>
+    <string name="browser_refresh">بارگذاری مجدد</string>
+    <string name="browser_https_only">برای امنیت، مرورگر هوشمند فعلاً فقط آدرس‌های HTTPS را می‌پذیرد.</string>
+    <string name="trusted_monitor_site">سایت مانیتورینگ اهواز</string>
+    <string name="standard_web_page">صفحه وب</string>
 </resources>
