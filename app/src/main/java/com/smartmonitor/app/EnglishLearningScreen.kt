@@ -13,7 +13,7 @@ import androidx.compose.material.icons.filled.EmojiEvents
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.Translate
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.*\nimport kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -36,7 +36,7 @@ fun EnglishLearningScreen(onBack: () -> Unit) {
     var completed by remember { mutableIntStateOf(prefs.getInt("completed", 0)) }
     var lessonIndex by remember { mutableIntStateOf(-1) }
     var selected by remember { mutableIntStateOf(-1) }
-    var answered by remember { mutableStateOf(false) }
+    var answered by remember { mutableStateOf(false) }\n    var secondsInMinute by remember { mutableIntStateOf(0) }
     var menuOpen by remember { mutableStateOf(false) }
     var category by remember { mutableStateOf(0) }
     val lessons = listOf(
@@ -47,7 +47,7 @@ fun EnglishLearningScreen(onBack: () -> Unit) {
         EnglishLesson("Travel","Airport","Where is the train station?",listOf("ایستگاه قطار کجاست؟","قطار چه ساعتی می‌رسد؟","بلیط قطار چند است؟"),0,"ایستگاه قطار کجاست؟","Where = کجا؛ train station = ایستگاه قطار")
     )
     val filtered = when(category) { 1 -> lessons.filter { it.category == "Travel" }; 2 -> lessons.filter { it.category == "Daily life" }; 3 -> lessons.filter { it.category == "Grammar" }; else -> lessons }
-    val lesson = if (lessonIndex >= 0 && lessonIndex < filtered.size) filtered[lessonIndex] else null
+    val lesson = if (lessonIndex >= 0 && lessonIndex < filtered.size) filtered[lessonIndex] else null\n\n    LaunchedEffect(lessonIndex) {\n        secondsInMinute = 0\n        while (lessonIndex >= 0) {\n            delay(1000)\n            secondsInMinute++\n            if (secondsInMinute >= 60) {\n                completed++\n                prefs.edit().putInt("completed", completed).apply()\n                secondsInMinute = 0\n            }\n        }\n    }
 
     Column(Modifier.fillMaxSize().background(Color(0xFFFFF9F0)).verticalScroll(rememberScrollState()).padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
@@ -96,7 +96,7 @@ fun EnglishLearningScreen(onBack: () -> Unit) {
             }
             lesson.options.forEachIndexed { i, option ->
                 val bg = if (answered && i == lesson.answer) Color(0xFFD9F5DF) else if (answered && selected == i) Color(0xFFFFE0E0) else Color.White
-                Card(onClick = { if (!answered) { selected = i; answered = true; if (i == lesson.answer) { completed += 2; prefs.edit().putInt("completed",completed).apply() } } }, colors = CardDefaults.cardColors(containerColor = bg), shape = RoundedCornerShape(16.dp)) {
+                Card(onClick = { if (!answered) { selected = i; answered = true;  } }, colors = CardDefaults.cardColors(containerColor = bg), shape = RoundedCornerShape(16.dp)) {
                     Text(option, Modifier.fillMaxWidth().padding(17.dp), fontSize = 17.sp, fontWeight = FontWeight.Medium)
                 }
             }
