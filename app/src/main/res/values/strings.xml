@@ -41,7 +41,7 @@
 
     <string name="health_title">My Health</string>
     <string name="health_warning_title">Important health and nutrition notice</string>
-    <string name="health_warning_body">AI suggestions are for general information and education only. They are not medical diagnosis, treatment, or a substitute for a doctor or registered dietitian. If you have a medical condition, are pregnant or breastfeeding, have a history of an eating disorder, food allergy, or prescribed diet, consult a qualified health professional before following dietary advice. The app must not replace your clinician's instructions or recommend changing medication.</string>
+    <string name="health_warning_body">AI suggestions are for general information and education only. They are not medical diagnosis, treatment, or a substitute for a doctor or registered dietitian. If you have a medical condition, are pregnant or breastfeeding, have a history of an eating disorder, food allergy, or prescribed diet, consult a qualified health professional before following dietary advice. The app must not replace instructions provided by your clinician or recommend changing medication.</string>
     <string name="health_warning_accept">I understand</string>
     <string name="health_warning_exit">Go back</string>
     <string name="health_ai_title">AI nutrition coach</string>
@@ -102,9 +102,9 @@
     <string name="food_calorie_result">%1$d kcal</string>
     <string name="food_macro_result">Protein: %1$s g • Carbs: %2$s g • Fat: %3$s g</string>
     <string name="food_per_100g">Reference: %1$d kcal per 100 g</string>
-    <string name="food_add_to_log">Add to today's food log</string>
-    <string name="food_saved">Added to today's food log</string>
-    <string name="food_today_total">Calories added to today's log: %1$d kcal</string>
+    <string name="food_add_to_log">Add to the daily food log</string>
+    <string name="food_saved">Added to the daily food log</string>
+    <string name="food_today_total">Calories added to the daily log: %1$d kcal</string>
     <string name="food_amount_validation">Enter a portion from 10 to 2,000 grams.</string>
     <string name="food_accuracy_note">Calories and macros are approximate reference values per 100 g, not a laboratory measurement. A photo cannot reliably reveal weight, oil, sauce or hidden ingredients. The image model is general-purpose and may not recognize Iranian dishes; please correct the food and portion yourself. Photo analysis runs on this device.</string>
     <string name="food_rice">Cooked rice</string>
