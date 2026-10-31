@@ -1,6 +1,9 @@
 package com.smartmonitor.app
 
 import android.content.Context
+import android.content.ComponentName
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -63,10 +66,11 @@ private suspend fun fetchMusic(query:String, genre:String, latest:Boolean):List<
 fun MusicScreen(onBack:()->Unit) {
     val context= LocalContext.current
     val prefs= remember { context.getSharedPreferences("smart_music",Context.MODE_PRIVATE) }
-    val player= remember { ExoPlayer.Builder(context).build().apply {
-        setAudioAttributes(androidx.media3.common.AudioAttributes.Builder().setUsage(androidx.media3.common.C.USAGE_MEDIA).setContentType(androidx.media3.common.C.AUDIO_CONTENT_TYPE_MUSIC).build(),true)
-        setHandleAudioBecomingNoisy(true)
-    } }
+    var player by remember { mutableStateOf<MediaController?>(null) }
+    val controllerFuture = remember {
+        val token = SessionToken(context, ComponentName(context, MusicPlaybackService::class.java))
+        MediaController.Builder(context, token).buildAsync()
+    }
     var tracks by remember { mutableStateOf<List<MusicTrack>>(emptyList()) }
     var query by remember { mutableStateOf("") }
     var genre by remember { mutableStateOf("") }
@@ -85,15 +89,19 @@ fun MusicScreen(onBack:()->Unit) {
         finally { loading=false }
     }
     LaunchedEffect(query,genre,latest) { delay(if(query.isBlank()) 0 else 500); reload() }
+    DisposableEffect(controllerFuture) {
+        controllerFuture.addListener({ try { player = controllerFuture.get() } catch (_:Exception) { } }, java.util.concurrent.Executor { it.run() })
+        onDispose { MediaController.releaseFuture(controllerFuture) }
+    }
     DisposableEffect(player) {
         val listener=object:Player.Listener { override fun onIsPlayingChanged(value:Boolean){playing=value} }
-        player.addListener(listener)
-        onDispose { player.removeListener(listener); player.release() }
+        player?.addListener(listener)
+        onDispose { player?.removeListener(listener) }
     }
     val shown=if(favoritesOnly) tracks.filter{favorites.contains(it.id)} else tracks
     Scaffold(
         topBar={ TopAppBar(title={Column{Text(stringResource(R.string.music_title),fontWeight=FontWeight.Bold);Text(stringResource(R.string.music_subtitle),fontSize=11.sp)}},navigationIcon={IconButton(onClick=onBack){Icon(Icons.Default.ArrowBack,null)}},actions={IconButton(onClick={favoritesOnly=!favoritesOnly}){Icon(if(favoritesOnly) Icons.Default.Favorite else Icons.Default.FavoriteBorder,null)}}) },
-        bottomBar={ current?.let{t-> Surface(shadowElevation=8.dp,color=Color(0xFF17333B)){Row(Modifier.fillMaxWidth().padding(12.dp),verticalAlignment=Alignment.CenterVertically){Icon(Icons.Default.MusicNote,null,tint=Color(0xFF64E6BE),modifier=Modifier.size(32.dp));Column(Modifier.weight(1f).padding(horizontal=10.dp)){Text(t.title,color=Color.White,maxLines=1,fontWeight=FontWeight.Bold);Text(t.artist,color=Color.LightGray,fontSize=12.sp,maxLines=1)};IconButton(onClick={if(player.isPlaying)player.pause() else player.play()}){Icon(if(playing)Icons.Default.Pause else Icons.Default.PlayArrow,null,tint=Color.White)}}}} }
+        bottomBar={ current?.let{t-> Surface(shadowElevation=8.dp,color=Color(0xFF17333B)){Row(Modifier.fillMaxWidth().padding(12.dp),verticalAlignment=Alignment.CenterVertically){Icon(Icons.Default.MusicNote,null,tint=Color(0xFF64E6BE),modifier=Modifier.size(32.dp));Column(Modifier.weight(1f).padding(horizontal=10.dp)){Text(t.title,color=Color.White,maxLines=1,fontWeight=FontWeight.Bold);Text(t.artist,color=Color.LightGray,fontSize=12.sp,maxLines=1)};IconButton(onClick={if(player?.isPlaying == true) player?.pause() else player?.play()}){Icon(if(playing)Icons.Default.Pause else Icons.Default.PlayArrow,null,tint=Color.White)}}}} }
     ){padding->
         Column(Modifier.fillMaxSize().padding(padding).background(Color(0xFFF4F8F7)).padding(horizontal=14.dp)){
             Spacer(Modifier.height(10.dp))
@@ -114,8 +122,8 @@ fun MusicScreen(onBack:()->Unit) {
                 items(shown,key={it.id}){track->
                     Row(Modifier.fillMaxWidth().background(Color.White,RoundedCornerShape(14.dp)).clickable{
                         current=track
-                        player.setMediaItem(MediaItem.fromUri("$AUDIO_API/tracks/${track.id}/stream?app_name=$AUDIO_APP"))
-                        player.prepare();player.play()
+                        player?.setMediaItem(MediaItem.fromUri("$AUDIO_API/tracks/${track.id}/stream?app_name=$AUDIO_APP"))
+                        player?.prepare();player?.play()
                     }.padding(10.dp),verticalAlignment=Alignment.CenterVertically){
                         Box(Modifier.size(46.dp).background(Brush.linearGradient(listOf(Color(0xFF178D76),Color(0xFF173D59))),RoundedCornerShape(11.dp)),contentAlignment=Alignment.Center){Icon(Icons.Default.MusicNote,null,tint=Color.White)}
                         Column(Modifier.weight(1f).padding(horizontal=9.dp)){Text(track.title,maxLines=1,fontWeight=FontWeight.SemiBold,color=Color(0xFF18343B));Text(track.artist,maxLines=1,fontSize=12.sp,color=Color.Gray)}
