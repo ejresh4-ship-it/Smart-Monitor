@@ -129,4 +129,4 @@
     <string name="music_loading">در حال دریافت موسیقی…</string><string name="music_empty">آهنگی پیدا نشد؛ سبک یا عبارت دیگری را امتحان کن.</string><string name="music_error">اتصال به آرشیو موسیقی برقرار نشد. اینترنت را بررسی و دوباره تلاش کن.</string><string name="music_retry">تلاش دوباره</string><string name="music_favorites">علاقه‌مندی‌ها</string>
     <string name="music_source_note">فهرست و پخش از Audius دریافت می‌شود. این آرشیو بیشتر شامل هنرمندان مستقل است؛ موجود بودن هر قطعه و حقوق پخش آن به سازنده و دسترسی منطقه‌ای بستگی دارد. فایل صوتی روی سرور Smart Monitor میزبانی نمی‌شود.</string>
 
-</resources>
+    <string name="learning_title">آموزش زبان انگلیسی</string>\n</resources>
