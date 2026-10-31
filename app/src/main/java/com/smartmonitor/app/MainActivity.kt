@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,6 +41,7 @@ private data class ToolItem(val title: Int, val icon: ImageVector, val color: Co
 
 @Composable
 private fun SmartMonitorApp() {
+    val configuration = LocalConfiguration.current
     var selected by remember { mutableIntStateOf(0) }
     var address by remember { mutableStateOf("https://eta.ahvaz.ir") }
     var showBrowser by remember { mutableStateOf(false) }
@@ -96,7 +98,7 @@ private fun SmartMonitorApp() {
                             Text(stringResource(R.string.brand_subtitle), color = Color.Gray, fontSize = 12.sp)
                         }
                         TextButton(onClick = {
-                            val current = resources.configuration.locales[0].language
+                            val current = configuration.locales[0].language
                             AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(if (current == "fa") "en" else "fa"))
                         }) {
                             Icon(Icons.Default.Translate, contentDescription = stringResource(R.string.language))
