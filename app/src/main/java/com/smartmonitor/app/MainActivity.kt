@@ -43,9 +43,11 @@ private fun SmartMonitorApp() {
     var selected by remember { mutableIntStateOf(0) }
     var address by remember { mutableStateOf("https://eta.ahvaz.ir") }
     var showBrowser by remember { mutableStateOf(false) }
-    var showFleet by remember { mutableStateOf(false) }\n    var showHealth by remember { mutableStateOf(false) }
+    var showFleet by remember { mutableStateOf(false) }
+    var showHealth by remember { mutableStateOf(false) }
     val tools = listOf(
-        ToolItem(R.string.health_title, Icons.Default.Favorite, Color(0xFFE84B62)),\n        ToolItem(R.string.monitor_apps, Icons.Default.PhoneAndroid, Color(0xFFE84B62)),
+        ToolItem(R.string.health_title, Icons.Default.Favorite, Color(0xFFE84B62)),
+        ToolItem(R.string.monitor_apps, Icons.Default.PhoneAndroid, Color(0xFFE84B62)),
         ToolItem(R.string.browser, Icons.Default.Public, Color(0xFF168BD5)),
         ToolItem(R.string.analysis, Icons.Default.Insights, Color(0xFF8155D9)),
         ToolItem(R.string.parameters, Icons.Default.Tune, Color(0xFFF29A28)),
@@ -64,6 +66,8 @@ private fun SmartMonitorApp() {
             )
         } else if (showFleet) {
             BusFleetScreen(onBack = { showFleet = false })
+        } else if (showHealth) {
+            HealthScreen(onBack = { showHealth = false })
         } else {
             Scaffold(
                 containerColor = Canvas,
@@ -120,7 +124,9 @@ private fun SmartMonitorApp() {
                     ) {
                         items(tools) { item ->
                             ToolCard(item) {
-                                if (item.title == R.string.health_title) showHealth = true\n                                else if (item.title == R.string.browser) showBrowser = true
+                                if (item.title == R.string.health_title) showHealth = true
+                                else if (item.title == R.string.health_title) showHealth = true
+                                else if (item.title == R.string.browser) showBrowser = true
                                 else if (item.title == R.string.monitor_apps) showFleet = true
                                 else selected = item.title
                             }
