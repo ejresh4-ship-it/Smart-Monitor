@@ -35,11 +35,11 @@ fun HealthScreen(onBack: () -> Unit) {
     var age by remember { mutableStateOf(prefs.getString("age", "") ?: "") }
     var height by remember { mutableStateOf(prefs.getString("height", "") ?: "") }
     var weight by remember { mutableStateOf(prefs.getString("weight", "") ?: "") }
-    var sex by remember { mutableStateOf(Sex.FEMALE) }
-    var activity by remember { mutableStateOf(Activity.LOW) }
-    var goal by remember { mutableStateOf(Goal.MAINTAIN) }
+    var sex by remember { mutableStateOf(runCatching { Sex.valueOf(prefs.getString("sex", Sex.FEMALE.name)!!) }.getOrDefault(Sex.FEMALE)) }
+    var activity by remember { mutableStateOf(runCatching { Activity.valueOf(prefs.getString("activity", Activity.LOW.name)!!) }.getOrDefault(Activity.LOW)) }
+    var goal by remember { mutableStateOf(runCatching { Goal.valueOf(prefs.getString("goal", Goal.MAINTAIN.name)!!) }.getOrDefault(Goal.MAINTAIN)) }
     var hasMedicalCondition by remember { mutableStateOf(false) }
-    var vegetarian by remember { mutableStateOf(false) }
+    var vegetarian by remember { mutableStateOf(prefs.getBoolean("vegetarian", false)) }
     var planReady by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf("") }
 
