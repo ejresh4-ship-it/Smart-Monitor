@@ -48,7 +48,8 @@ private fun SmartMonitorApp() {
     var showFleet by remember { mutableStateOf(false) }
     var showHealth by remember { mutableStateOf(false) }
     var showMusic by remember { mutableStateOf(false) }
-    var showLearning by remember { mutableStateOf(false) }\n    var showSettings by remember { mutableStateOf(false) }
+    var showLearning by remember { mutableStateOf(false) }
+    var showSettings by remember { mutableStateOf(false) }
     val tools = listOf(
         ToolItem(R.string.health_title, Icons.Default.Favorite, Color(0xFFE84B62)),
         ToolItem(R.string.music_title, Icons.Default.MusicNote, Color(0xFF18A879)),
@@ -78,6 +79,8 @@ private fun SmartMonitorApp() {
             MusicScreen(onBack = { showMusic = false })
         } else if (showLearning) {
             EnglishLearningScreen(onBack = { showLearning = false })
+        } else if (showSettings) {
+            SettingsScreen(onBack = { showSettings = false })
         } else {
             Scaffold(
                 containerColor = Canvas,
@@ -139,6 +142,7 @@ private fun SmartMonitorApp() {
                                 else if (item.title == R.string.learning_title) showLearning = true
                                 else if (item.title == R.string.browser) showBrowser = true
                                 else if (item.title == R.string.monitor_apps) showFleet = true
+                                else if (item.title == R.string.settings) showSettings = true
                                 else selected = item.title
                             }
                         }
