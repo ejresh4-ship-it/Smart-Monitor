@@ -41,6 +41,7 @@ fun HealthScreen(onBack: () -> Unit) {
     var hasMedicalCondition by remember { mutableStateOf(false) }
     var vegetarian by remember { mutableStateOf(prefs.getBoolean("vegetarian", false)) }
     var planReady by remember { mutableStateOf(false) }
+    var showFoodScanner by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf("") }
 
     if (!accepted) {
@@ -71,6 +72,15 @@ fun HealthScreen(onBack: () -> Unit) {
         if (accepted) {
             Text(stringResource(R.string.health_ai_title), fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Text(stringResource(R.string.health_intro))
+            OutlinedButton(
+                onClick = { showFoodScanner = !showFoodScanner },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(stringResource(if (showFoodScanner) R.string.food_scan_hide else R.string.food_scan_toggle))
+            }
+            if (showFoodScanner) {
+                HealthFoodScanner()
+            }
             HealthInput(stringResource(R.string.health_age), age, { age = it }, stringResource(R.string.health_age_unit))
             HealthInput(stringResource(R.string.health_height), height, { height = it }, stringResource(R.string.health_height_unit))
             HealthInput(stringResource(R.string.health_weight), weight, { weight = it }, stringResource(R.string.health_weight_unit))
