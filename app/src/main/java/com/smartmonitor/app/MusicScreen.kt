@@ -211,13 +211,25 @@ fun MusicScreen(onBack:()->Unit) {
                         }
                     }
                 }
-                Text("Catalog: Audius • Browse: Radio Javan • Spotify • SoundCloud • Jamendo",fontSize=10.sp,color=Color.Gray,modifier=Modifier.padding(bottom=5.dp))
+                Text("Iranian music sources",fontWeight=FontWeight.Bold,color=Color(0xFF173A42),modifier=Modifier.padding(top=5.dp))
                 Row(horizontalArrangement=Arrangement.spacedBy(5.dp)){
-                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://www.radiojavan.com")))}){Text("Radio Javan")}
+                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://play.radiojavan.com/")))}){Text("Radio Javan")}
+                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://web.iromusic.live/")))}){Text("IROMUSIC")}
+                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://musicifa.com/")))}){Text("Musicifa")}
+                }
+                Row(horizontalArrangement=Arrangement.spacedBy(5.dp)){
+                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://playmusic.ir/")))}){Text("PlayMusic")}
+                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://radiosbi.com/")))}){Text("Radio SBI")}
+                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://navaak.com/")))}){Text("Navaak")}
+                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://beeptunes.com/")))}){Text("Beeptunes")}
+                }
+                Text("International music sources",fontWeight=FontWeight.Bold,color=Color(0xFF173A42),modifier=Modifier.padding(top=4.dp))
+                Row(horizontalArrangement=Arrangement.spacedBy(5.dp)){
                     TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://open.spotify.com")))}){Text("Spotify")}
                     TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://soundcloud.com")))}){Text("SoundCloud")}
                     TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://www.jamendo.com")))}){Text("Jamendo")}
                 }
+                Text("External services open in your browser. Direct in-app playback requires an official API or permitted integration.",fontSize=10.sp,color=Color.Gray,modifier=Modifier.padding(bottom=5.dp))
             }
         }
     }
