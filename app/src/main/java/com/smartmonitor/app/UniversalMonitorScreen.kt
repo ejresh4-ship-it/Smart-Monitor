@@ -103,12 +103,16 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
                           const o=document.createElement('div');o.id='sm-pick-overlay';
                           o.style='position:fixed;inset:0;z-index:2147483647;background:rgba(0,180,255,.08);border:3px dashed #00d9ff;display:flex;align-items:center;justify-content:center;color:white;font:bold 18px sans-serif;text-shadow:0 1px 5px #000;touch-action:pan-y';
                           o.innerHTML='<div style="background:#07152ddd;padding:14px;border-radius:12px">روی بخش موردنظر بزن</div>';
-                          o.onclick=function(e){e.preventDefault();const el=document.elementFromPoint(e.clientX,e.clientY);if(!el||el===o)return;
+                          o.onclick=function(e){e.preventDefault();o.style.display='none';const el=document.elementFromPoint(e.clientX,e.clientY);o.style.display='flex';if(!el||el===o)return;
                           document.querySelectorAll('[data-sm-monitor]').forEach(x=>x.removeAttribute('data-sm-monitor'));
                           el.setAttribute('data-sm-monitor','selected');el.style.outline='3px solid #00e5ff';o.remove();};
                           document.body.appendChild(o);
                         })()"""
-                    ) { selecting = false }
+                    ) { raw ->
+                        selecting = false
+                        val value = raw?.trim('\"')?.replace("\\\\n", "\\n").orEmpty()
+                        if (value.isNotBlank()) { selectedText = value; latestText = value }
+                    }
                 }, modifier = Modifier.weight(1f), enabled = pageReady) { Icon(Icons.Default.SelectAll, null); Spacer(Modifier.width(5.dp)); Text("انتخاب محدوده") }
             }
             Spacer(Modifier.height(8.dp))
