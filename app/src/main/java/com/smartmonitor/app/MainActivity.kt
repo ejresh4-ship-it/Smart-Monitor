@@ -68,7 +68,7 @@ private fun SmartMonitorApp() {
     )
 
     MaterialTheme(colorScheme = lightColorScheme(primary = Blue, secondary = Color(0xFF00A98F), background = Canvas)) {
-        if (showUniversalMonitor) {
+        if (showMotionGuard) {\n            MotionGuardScreen(onBack = { showMotionGuard = false })\n        } else if (showUniversalMonitor) {
             UniversalMonitorScreen(onBack = { showUniversalMonitor = false })
         } else if (showBrowser) {
             BrowserScreen(
