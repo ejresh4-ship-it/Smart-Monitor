@@ -46,6 +46,7 @@ private fun SmartMonitorApp() {
     var address by remember { mutableStateOf("https://eta.ahvaz.ir") }
     var showBrowser by remember { mutableStateOf(false) }
     var showUniversalMonitor by remember { mutableStateOf(false) }
+    var showMotionGuard by remember { mutableStateOf(false) }
     var showMonitoring by remember { mutableStateOf(false) }
     var showHealth by remember { mutableStateOf(false) }
     var showMusic by remember { mutableStateOf(false) }
@@ -144,7 +145,7 @@ private fun SmartMonitorApp() {
                                 else if (item.title == R.string.music_title) showMusic = true
                                 else if (item.title == R.string.learning_title) showLearning = true
                                 else if (item.title == R.string.browser) showUniversalMonitor = true
-                                else if (item.title == R.string.monitor_apps) showMonitoring = true
+                                else if (item.title == R.string.monitor_apps) showMonitoring = true\n                                else if (item.title == R.string.alerts) showMotionGuard = true
                                 else if (item.title == R.string.settings) showSettings = true
                                 else selected = item.title
                             }
