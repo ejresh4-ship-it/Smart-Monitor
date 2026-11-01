@@ -113,7 +113,7 @@ private fun requestHealthAi(provider: HealthAiProvider, key: String, question: S
             setRequestProperty("X-Title", "Smart Monitor")
         }
     }
-    try {
+    return try {
         val systemPrompt = "You are a cautious health education assistant. Answer in Persian. Provide general evidence-informed information only. Never diagnose, prescribe medication, or replace a clinician. Clearly state uncertainty. For urgent symptoms, advise local emergency care. Do not recommend extreme diets or unsafe weight loss."
         val messages = JSONArray()
             .put(JSONObject().put("role", "system").put("content", systemPrompt))
