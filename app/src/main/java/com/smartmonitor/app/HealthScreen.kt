@@ -217,6 +217,7 @@ fun HealthScreen(onBack: () -> Unit) {
                         OutlinedButton(onClick = { showFeatures = !showFeatures }, modifier = Modifier.fillMaxWidth()) { Text(if (showFeatures) "بستن امکانات" else "نمایش امکانات سلامت") }
                         AnimatedVisibility(showFeatures, enter = fadeIn() + slideInVertically()) {
                             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                                HealthAiAssistant()
                                 OutlinedButton(onClick = { showFoodScanner = !showFoodScanner }, modifier = Modifier.fillMaxWidth()) { Icon(Icons.Default.CameraAlt, null); Text(if (showFoodScanner) "بستن اسکنر غذا" else "محاسبه کالری با عکس غذا") }
                                 if (showFoodScanner) HealthFoodScanner()
                                 ExercisePlanSection()
