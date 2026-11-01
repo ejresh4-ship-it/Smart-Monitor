@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
+import android.webkit.WebView
+import android.webkit.WebViewClient
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaMetadata
 import coil.compose.AsyncImage
 import androidx.media3.session.MediaController
@@ -90,6 +93,7 @@ fun MusicScreen(onBack:()->Unit) {
     var dialog by remember { mutableStateOf("") }
     var nameInput by remember { mutableStateOf("") }
     var expandedPlayer by remember { mutableStateOf(false) }
+    var sourceUrl by remember { mutableStateOf<String?>(null) }
     var current by remember { mutableStateOf<MusicTrack?>(null) }
     var playing by remember { mutableStateOf(false) }
     var position by remember { mutableLongStateOf(0L) }
@@ -158,7 +162,19 @@ fun MusicScreen(onBack:()->Unit) {
         }}} }
     ){padding->
         Column(Modifier.fillMaxSize().padding(padding).background(Color(0xFFF1F6F6)).padding(horizontal=14.dp)){
-            if(expandedPlayer && current!=null) {
+            if(sourceUrl!=null) {
+                Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically) {
+                    TextButton(onClick={sourceUrl=null}) { Icon(Icons.Default.ArrowBack,null); Text("Back to music") }
+                    Text(sourceUrl!!.removePrefix("https://").substringBefore("/"),fontSize=12.sp,color=Color.Gray,maxLines=1)
+                }
+                AndroidView(modifier=Modifier.fillMaxSize(),factory={ctx -> WebView(ctx).apply {
+                    settings.javaScriptEnabled=true
+                    settings.domStorageEnabled=true
+                    settings.mediaPlaybackRequiresUserGesture=true
+                    webViewClient=WebViewClient()
+                    loadUrl(sourceUrl!!)
+                }},update={view -> if(view.url!=sourceUrl) view.loadUrl(sourceUrl!!)})
+            } else if(expandedPlayer && current!=null) {
                 val t=current!!
                 Column(Modifier.fillMaxWidth().weight(1f),horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.Center){
                     if(t.artwork!=null) AsyncImage(t.artwork,null,Modifier.fillMaxWidth().aspectRatio(1f).padding(18.dp),contentScale=androidx.compose.ui.layout.ContentScale.Crop) else Box(Modifier.fillMaxWidth().aspectRatio(1f).padding(18.dp).background(Brush.linearGradient(listOf(Color(0xFF167C78),Color(0xFF172E52))),RoundedCornerShape(28.dp)),contentAlignment=Alignment.Center){Icon(Icons.Default.MusicNote,null,tint=Color.White,modifier=Modifier.size(90.dp))}
@@ -213,15 +229,15 @@ fun MusicScreen(onBack:()->Unit) {
                 }
                 Text("Iranian music sources",fontWeight=FontWeight.Bold,color=Color(0xFF173A42),modifier=Modifier.padding(top=5.dp))
                 Row(horizontalArrangement=Arrangement.spacedBy(5.dp)){
-                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://play.radiojavan.com/")))}){Text("Radio Javan")}
-                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://web.iromusic.live/")))}){Text("IROMUSIC")}
-                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://musicifa.com/")))}){Text("Musicifa")}
+                    TextButton(onClick={sourceUrl="https://play.radiojavan.com/"}){Text("Radio Javan")}
+                    TextButton(onClick={sourceUrl="https://web.iromusic.live/"}){Text("IROMUSIC")}
+                    TextButton(onClick={sourceUrl="https://musicifa.com/"}){Text("Musicifa")}
                 }
                 Row(horizontalArrangement=Arrangement.spacedBy(5.dp)){
-                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://playmusic.ir/")))}){Text("PlayMusic")}
-                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://radiosbi.com/")))}){Text("Radio SBI")}
-                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://navaak.com/")))}){Text("Navaak")}
-                    TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://beeptunes.com/")))}){Text("Beeptunes")}
+                    TextButton(onClick={sourceUrl="https://playmusic.ir/"}){Text("PlayMusic")}
+                    TextButton(onClick={sourceUrl="https://radiosbi.com/"}){Text("Radio SBI")}
+                    TextButton(onClick={sourceUrl="https://navaak.com/"}){Text("Navaak")}
+                    TextButton(onClick={sourceUrl="https://beeptunes.com/"}){Text("Beeptunes")}
                 }
                 Text("International music sources",fontWeight=FontWeight.Bold,color=Color(0xFF173A42),modifier=Modifier.padding(top=4.dp))
                 Row(horizontalArrangement=Arrangement.spacedBy(5.dp)){
@@ -229,7 +245,7 @@ fun MusicScreen(onBack:()->Unit) {
                     TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://soundcloud.com")))}){Text("SoundCloud")}
                     TextButton(onClick={context.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse("https://www.jamendo.com")))}){Text("Jamendo")}
                 }
-                Text("External services open in your browser. Direct in-app playback requires an official API or permitted integration.",fontSize=10.sp,color=Color.Gray,modifier=Modifier.padding(bottom=5.dp))
+                Text("سایت‌ها داخل برنامه باز می‌شوند؛ جست‌وجو و پخش با امکانات خود هر سرویس انجام می‌شود.",fontSize=10.sp,color=Color.Gray,modifier=Modifier.padding(bottom=5.dp))
             }
         }
     }
