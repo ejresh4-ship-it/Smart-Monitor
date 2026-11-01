@@ -53,7 +53,7 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
     var previousText by remember { mutableStateOf("") }
     var monitoring by remember { mutableStateOf(false) }
     var appList by remember { mutableStateOf(emptyList<MonitorTargetApp>()) }
-    var showApps by remember { mutableStateOf(false) }
+    var showApps by remember { mutableStateOf(false) }\n    var showMotionGuard by remember { mutableStateOf(false) }
     var targetApp by remember { mutableStateOf<MonitorTargetApp?>(null) }
     val prefs = remember { context.getSharedPreferences("universal_monitor", 0) }
     val history = remember { mutableStateListOf<String>().apply { addAll(prefs.getString("history", "")!!.split("\\n").filter { it.isNotBlank() }.take(30)) } }
@@ -190,7 +190,7 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
             }
         }
     }
-    if (showApps) {
+    if (showMotionGuard) {\n        MotionGuardScreen(onBack = { showMotionGuard = false })\n    }\n    if (showApps) {
         AlertDialog(
             onDismissRequest = { showApps = false },
             title = { Text("برنامه موردنظر را انتخاب کن") },
