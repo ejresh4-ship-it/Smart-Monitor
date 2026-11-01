@@ -4,6 +4,7 @@ import android.app.AppOpsManager
 import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Process
 import android.provider.Settings
 import androidx.compose.foundation.layout.*
@@ -38,12 +39,16 @@ fun AppMonitoringScreen(onBack: () -> Unit) {
         if (!hasAccess) return
         val manager = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
         val start = Calendar.getInstance().apply { set(Calendar.HOUR_OF_DAY, 0); set(Calendar.MINUTE, 0); set(Calendar.SECOND, 0); set(Calendar.MILLISECOND, 0) }.timeInMillis
-        apps = manager.queryAndAggregateUsageStats(start, System.currentTimeMillis()).mapNotNull { (pkg, stat) ->
-            if (pkg == context.packageName || stat.totalTimeInForeground <= 0L) null else try {
-                val label = context.packageManager.getApplicationLabel(context.packageManager.getApplicationInfo(pkg, 0)).toString()
-                MonitoredApp(pkg, label, stat.totalTimeInForeground / 60000L)
-            } catch (_: Exception) { null }
-        }.sortedByDescending { it.minutes }
+        val usage = manager.queryAndAggregateUsageStats(start, System.currentTimeMillis())
+        val launcherIntent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+        val launchableApps = context.packageManager.queryIntentActivities(launcherIntent, PackageManager.MATCH_ALL)
+        apps = launchableApps.mapNotNull { resolveInfo ->
+            val appInfo = resolveInfo.activityInfo?.applicationInfo ?: return@mapNotNull null
+            val pkg = appInfo.packageName
+            if (pkg == context.packageName) return@mapNotNull null
+            val minutes = (usage[pkg]?.totalTimeInForeground ?: 0L) / 60000L
+            MonitoredApp(pkg, context.packageManager.getApplicationLabel(appInfo).toString(), minutes)
+        }.distinctBy { it.packageName }.sortedByDescending { it.minutes }
     }
     LaunchedEffect(Unit) { reload() }
     Scaffold(topBar = { TopAppBar(title = { Text("مانیتورینگ برنامه‌ها", fontWeight = FontWeight.Bold) }, navigationIcon = { TextButton(onClick = onBack) { Text("بازگشت") } }, actions = { IconButton(onClick = { reload() }) { Icon(Icons.Default.Refresh, contentDescription = "به‌روزرسانی") } }) }) { padding ->
@@ -60,9 +65,11 @@ fun AppMonitoringScreen(onBack: () -> Unit) {
                     OutlinedButton(onClick = { reload() }, modifier = Modifier.fillMaxWidth()) { Text("بررسی دوباره دسترسی") }
                 } }
             } else {
-                Text("امروز · " + apps.size + " برنامه · " + formatDuration(apps.sumOf { it.minutes }), fontWeight = FontWeight.Bold, color = Color(0xFF12336B))
+                val monitoredApps = apps.filter { prefs.getBoolean("enabled_" + it.packageName, true) }
+                Text("امروز · " + monitoredApps.size + " برنامه تحت نظارت · " + formatDuration(monitoredApps.sumOf { it.minutes }), fontWeight = FontWeight.Bold, color = Color(0xFF12336B))
+                Text("برنامه‌های قابل اجرا هم نمایش داده می‌شوند؛ اگر امروز استفاده نشده باشند زمان آن‌ها صفر است.", style = MaterialTheme.typography.bodySmall, color = Color.Gray)
                 Spacer(Modifier.height(8.dp))
-                if (apps.isEmpty()) Text("هنوز آماری برای امروز ثبت نشده است.") else LazyColumn(verticalArrangement = Arrangement.spacedBy(9.dp)) {
+                if (apps.isEmpty()) Text("برنامه قابل اجرایی پیدا نشد.") else LazyColumn(verticalArrangement = Arrangement.spacedBy(9.dp)) {
                     items(apps, key = { it.packageName }) { app ->
                         val limit = prefs.getInt("limit_" + app.packageName, 0)
                         val enabled = prefs.getBoolean("enabled_" + app.packageName, true)
@@ -74,7 +81,7 @@ fun AppMonitoringScreen(onBack: () -> Unit) {
                             }
                             Spacer(Modifier.height(8.dp))
                             if (limit > 0) { LinearProgressIndicator(progress = (app.minutes.toFloat() / limit).coerceIn(0f, 1f), modifier = Modifier.fillMaxWidth()); Text("سقف روزانه: " + limit + " دقیقه" + if (app.minutes >= limit) " · سقف رد شده" else "", style = MaterialTheme.typography.labelSmall) } else Text("سقف روزانه تعیین نشده", style = MaterialTheme.typography.labelSmall, color = Color.Gray)
-                            Row(verticalAlignment = Alignment.CenterVertically) { Text("در فهرست نظارت", modifier = Modifier.weight(1f)); Switch(checked = enabled, onCheckedChange = { prefs.edit().putBoolean("enabled_" + app.packageName, it).apply() }); TextButton(onClick = { selected = app }) { Text("تنظیم سقف") } }
+                            Row(verticalAlignment = Alignment.CenterVertically) { Text(if (enabled) "در محاسبه مجموع لحاظ شود" else "از محاسبه مجموع کنار گذاشته شود", modifier = Modifier.weight(1f), style = MaterialTheme.typography.bodySmall); Switch(checked = enabled, onCheckedChange = { prefs.edit().putBoolean("enabled_" + app.packageName, it).apply() }); TextButton(onClick = { selected = app }) { Text("تنظیم سقف") } }
                         } }
                     }
                 }
