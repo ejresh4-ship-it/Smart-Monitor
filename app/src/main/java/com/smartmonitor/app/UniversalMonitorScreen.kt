@@ -5,6 +5,10 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.webkit.WebChromeClient
+import android.webkit.JavascriptInterface
+import android.os.Handler
+import android.os.Looper
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,6 +30,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.delay
 
 private data class MonitorTargetApp(val label: String, val packageName: String)
+
+private class MonitorPageBridge(private val onText: (String) -> Unit) {
+    @JavascriptInterface fun onSelected(text: String) {
+        Handler(Looper.getMainLooper()).post { onText(text.trim()) }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -105,14 +115,10 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
                           o.innerHTML='<div style="background:#07152ddd;padding:14px;border-radius:12px">روی بخش موردنظر بزن</div>';
                           o.onclick=function(e){e.preventDefault();o.style.display='none';const el=document.elementFromPoint(e.clientX,e.clientY);o.style.display='flex';if(!el||el===o)return;
                           document.querySelectorAll('[data-sm-monitor]').forEach(x=>x.removeAttribute('data-sm-monitor'));
-                          el.setAttribute('data-sm-monitor','selected');el.style.outline='3px solid #00e5ff';o.remove();};
+                          el.setAttribute('data-sm-monitor','selected');el.style.outline='3px solid #00e5ff';o.remove();if(window.SmartMonitorBridge){window.SmartMonitorBridge.onSelected(el.innerText||el.textContent||'');}};
                           document.body.appendChild(o);
                         })()"""
-                    ) { raw ->
-                        selecting = false
-                        val value = raw?.trim('\"')?.replace("\\\\n", "\\n").orEmpty()
-                        if (value.isNotBlank()) { selectedText = value; latestText = value }
-                    }
+                    ) { selecting = false }
                 }, modifier = Modifier.weight(1f), enabled = pageReady) { Icon(Icons.Default.SelectAll, null); Spacer(Modifier.width(5.dp)); Text("انتخاب محدوده") }
             }
             Spacer(Modifier.height(8.dp))
@@ -123,6 +129,10 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
                         WebView(ctx).apply {
                             webView = this
                             settings.javaScriptEnabled = true
+                            addJavascriptInterface(MonitorPageBridge { value ->
+                                if (value.isNotBlank()) { selectedText = value; latestText = value; previousText = "" }
+                            }, "SmartMonitorBridge")
+                            webChromeClient = WebChromeClient()
                             settings.domStorageEnabled = true
                             settings.allowFileAccess = false
                             settings.allowContentAccess = false
