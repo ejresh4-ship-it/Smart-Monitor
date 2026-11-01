@@ -36,6 +36,7 @@ private enum class Activity(val factor: Double) { LOW(1.2), LIGHT(1.375), MODERA
 
 private data class HealthProfile(val id: String, val name: String, val age: String, val height: String, val weight: String, val sex: Sex, val activity: Activity, val goal: Goal, val vegetarian: Boolean)
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HealthScreen(onBack: () -> Unit) {
     val context = LocalContext.current
@@ -70,6 +71,7 @@ fun HealthScreen(onBack: () -> Unit) {
         activity = runCatching { Activity.valueOf(prefs.getString("${p}_activity", Activity.LOW.name)!!) }.getOrDefault(Activity.LOW)
         goal = runCatching { Goal.valueOf(prefs.getString("${p}_goal", Goal.MAINTAIN.name)!!) }.getOrDefault(Goal.MAINTAIN)
         vegetarian = prefs.getBoolean("${p}_vegetarian", false)
+        hasMedicalCondition = prefs.getBoolean("${p}_medical_condition", false)
         planReady = false
     }
     fun saveProfile() {
@@ -78,6 +80,7 @@ fun HealthScreen(onBack: () -> Unit) {
             .putString("${p}_height", height).putString("${p}_weight", weight)
             .putString("${p}_sex", sex.name).putString("${p}_activity", activity.name)
             .putString("${p}_goal", goal.name).putBoolean("${p}_vegetarian", vegetarian)
+            .putBoolean("${p}_medical_condition", hasMedicalCondition)
             .putString("active_profile", activeId).putStringSet("profile_ids", profileIds.toSet()).apply()
     }
     LaunchedEffect(Unit) {
@@ -113,7 +116,7 @@ fun HealthScreen(onBack: () -> Unit) {
                         val id = UUID.randomUUID().toString()
                         profileIds = profileIds + id
                         activeId = id
-                        age = ""; height = ""; weight = ""; sex = Sex.FEMALE; activity = Activity.LOW; goal = Goal.MAINTAIN; vegetarian = false
+                        age = ""; height = ""; weight = ""; sex = Sex.FEMALE; activity = Activity.LOW; goal = Goal.MAINTAIN; vegetarian = false; hasMedicalCondition = false
                     }
                     saveProfile(); showProfileDialog = false; planReady = false
                 }
@@ -185,7 +188,6 @@ fun HealthScreen(onBack: () -> Unit) {
                                 a == null || h == null || w == null -> context.getString(R.string.health_invalid)
                                 a !in 18..75 || h !in 120.0..220.0 || w !in 35.0..250.0 -> context.getString(R.string.health_out_of_range)
                                 hasMedicalCondition -> context.getString(R.string.health_medical_block)
-                                ((w / ((h / 100.0) * (h / 100.0))) !in 18.5..30.0) && goal != Goal.MAINTAIN -> context.getString(R.string.health_bmi_goal_block)
                                 else -> ""
                             }
                             if (error.isBlank()) { saveProfile(); planReady = true }
