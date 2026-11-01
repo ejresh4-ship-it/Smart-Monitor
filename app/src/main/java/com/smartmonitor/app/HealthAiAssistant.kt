@@ -20,13 +20,15 @@ import java.net.URL
 private enum class HealthAiProvider(val label: String, val endpoint: String, val model: String, val keyHint: String) {
     GROQ("Groq • GPT-OSS 120B", "https://api.groq.com/openai/v1/chat/completions", "openai/gpt-oss-120b", "کلید Groq"),
     OPENROUTER("OpenRouter • مدل رایگان خودکار", "https://openrouter.ai/api/v1/chat/completions", "openrouter/free", "کلید OpenRouter"),
-    MISTRAL("Mistral • Ministral", "https://api.mistral.ai/v1/chat/completions", "ministral-3b-latest", "کلید Mistral")
+    MISTRAL("Mistral • Ministral", "https://api.mistral.ai/v1/chat/completions", "ministral-3b-latest", "کلید Mistral"),
+    CLOUDFLARE("Cloudflare • Llama 3.1 8B", "", "@cf/meta/llama-3.1-8b-instruct", "توکن Cloudflare")
 }
 
 @Composable
 fun HealthAiAssistant() {
     var provider by remember { mutableStateOf(HealthAiProvider.GROQ) }
     var apiKey by remember { mutableStateOf("") }
+    var accountId by remember { mutableStateOf("") }
     var question by remember { mutableStateOf("") }
     var answer by remember { mutableStateOf("") }
     var error by remember { mutableStateOf("") }
@@ -46,6 +48,13 @@ fun HealthAiAssistant() {
                     }
                 }
             }
+            if (provider == HealthAiProvider.CLOUDFLARE) {
+                OutlinedTextField(
+                    value = accountId, onValueChange = { accountId = it.trim(); error = "" },
+                    label = { Text("Cloudflare Account ID") },
+                    modifier = Modifier.fillMaxWidth(), singleLine = true
+                )
+            }
             OutlinedTextField(
                 value = apiKey, onValueChange = { apiKey = it; error = "" },
                 label = { Text("کلید API شخصی • ${provider.keyHint}") },
@@ -59,12 +68,12 @@ fun HealthAiAssistant() {
                 modifier = Modifier.fillMaxWidth(), minLines = 3
             )
             Button(
-                enabled = !loading && apiKey.isNotBlank() && question.isNotBlank(),
+                enabled = !loading && apiKey.isNotBlank() && question.isNotBlank() && (provider != HealthAiProvider.CLOUDFLARE || accountId.isNotBlank()),
                 onClick = {
                     loading = true; error = ""; answer = ""
                     scope.launch {
                         try {
-                            answer = withContext(Dispatchers.IO) { requestHealthAi(provider, apiKey.trim(), question.trim()) }
+                            answer = withContext(Dispatchers.IO) { requestHealthAi(provider, apiKey.trim(), question.trim(), accountId.trim()) }
                         } catch (e: Exception) {
                             error = e.message ?: "ارتباط با سرویس برقرار نشد."
                         } finally { loading = false }
@@ -88,8 +97,11 @@ fun HealthAiAssistant() {
     }
 }
 
-private fun requestHealthAi(provider: HealthAiProvider, key: String, question: String): String {
-    val connection = (URL(provider.endpoint).openConnection() as HttpURLConnection).apply {
+private fun requestHealthAi(provider: HealthAiProvider, key: String, question: String, accountId: String): String {
+    val endpoint = if (provider == HealthAiProvider.CLOUDFLARE) {
+        "https://api.cloudflare.com/client/v4/accounts/$accountId/ai/v1/chat/completions"
+    } else provider.endpoint
+    val connection = (URL(endpoint).openConnection() as HttpURLConnection).apply {
         requestMethod = "POST"
         connectTimeout = 20000
         readTimeout = 45000
@@ -116,7 +128,9 @@ private fun requestHealthAi(provider: HealthAiProvider, key: String, question: S
             throw IllegalStateException(detail?.takeIf { it.isNotBlank() } ?: "خطای سرویس (HTTP $code). کلید و سهمیه را بررسی کن.")
         }
         val parsed = JSONObject(raw)
-        val text = parsed.optJSONArray("choices")?.optJSONObject(0)?.optJSONObject("message")?.optString("content").orEmpty()
+        val text = if (provider == HealthAiProvider.CLOUDFLARE) {
+            parsed.optJSONObject("result")?.optJSONArray("choices")?.optJSONObject(0)?.optJSONObject("message")?.optString("content").orEmpty()
+        } else parsed.optJSONArray("choices")?.optJSONObject(0)?.optJSONObject("message")?.optString("content").orEmpty()
         text.takeIf { it.isNotBlank() } ?: throw IllegalStateException("پاسخ خالی از سرویس دریافت شد.")
     } finally { connection.disconnect() }
 }
