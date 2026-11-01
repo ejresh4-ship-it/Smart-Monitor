@@ -45,6 +45,7 @@ private fun SmartMonitorApp() {
     var selected by remember { mutableIntStateOf(0) }
     var address by remember { mutableStateOf("https://eta.ahvaz.ir") }
     var showBrowser by remember { mutableStateOf(false) }
+    var showUniversalMonitor by remember { mutableStateOf(false) }
     var showMonitoring by remember { mutableStateOf(false) }
     var showHealth by remember { mutableStateOf(false) }
     var showMusic by remember { mutableStateOf(false) }
@@ -66,7 +67,9 @@ private fun SmartMonitorApp() {
     )
 
     MaterialTheme(colorScheme = lightColorScheme(primary = Blue, secondary = Color(0xFF00A98F), background = Canvas)) {
-        if (showBrowser) {
+        if (showUniversalMonitor) {
+            UniversalMonitorScreen(onBack = { showUniversalMonitor = false })
+        } else if (showBrowser) {
             BrowserScreen(
                 initialUrl = address,
                 onClose = { showBrowser = false }
@@ -140,7 +143,7 @@ private fun SmartMonitorApp() {
                                 if (item.title == R.string.health_title) showHealth = true
                                 else if (item.title == R.string.music_title) showMusic = true
                                 else if (item.title == R.string.learning_title) showLearning = true
-                                else if (item.title == R.string.browser) showBrowser = true
+                                else if (item.title == R.string.browser) showUniversalMonitor = true
                                 else if (item.title == R.string.monitor_apps) showMonitoring = true
                                 else if (item.title == R.string.settings) showSettings = true
                                 else selected = item.title
@@ -154,7 +157,7 @@ private fun SmartMonitorApp() {
                             OutlinedTextField(value = address, onValueChange = { address = it }, modifier = Modifier.fillMaxWidth(), singleLine = true, placeholder = { Text(stringResource(R.string.url_hint)) })
                             Spacer(Modifier.height(9.dp))
                             Button(
-                                onClick = { showBrowser = true },
+                                onClick = { showUniversalMonitor = true },
                                 modifier = Modifier.fillMaxWidth(),
                                 colors = ButtonDefaults.buttonColors(containerColor = Blue)
                             ) {
