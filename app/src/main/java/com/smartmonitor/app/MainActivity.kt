@@ -45,7 +45,7 @@ private fun SmartMonitorApp() {
     var selected by remember { mutableIntStateOf(0) }
     var address by remember { mutableStateOf("https://eta.ahvaz.ir") }
     var showBrowser by remember { mutableStateOf(false) }
-    var showFleet by remember { mutableStateOf(false) }
+    var showMonitoring by remember { mutableStateOf(false) }
     var showHealth by remember { mutableStateOf(false) }
     var showMusic by remember { mutableStateOf(false) }
     var showLearning by remember { mutableStateOf(false) }
@@ -71,8 +71,8 @@ private fun SmartMonitorApp() {
                 initialUrl = address,
                 onClose = { showBrowser = false }
             )
-        } else if (showFleet) {
-            BusFleetScreen(onBack = { showFleet = false })
+        } else if (showMonitoring) {
+            AppMonitoringScreen(onBack = { showMonitoring = false })
         } else if (showHealth) {
             HealthScreen(onBack = { showHealth = false })
         } else if (showMusic) {
@@ -141,7 +141,7 @@ private fun SmartMonitorApp() {
                                 else if (item.title == R.string.music_title) showMusic = true
                                 else if (item.title == R.string.learning_title) showLearning = true
                                 else if (item.title == R.string.browser) showBrowser = true
-                                else if (item.title == R.string.monitor_apps) showFleet = true
+                                else if (item.title == R.string.monitor_apps) showMonitoring = true
                                 else if (item.title == R.string.settings) showSettings = true
                                 else selected = item.title
                             }
