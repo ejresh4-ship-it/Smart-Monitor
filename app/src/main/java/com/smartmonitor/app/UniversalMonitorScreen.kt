@@ -117,6 +117,8 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
                 }
             }
             Spacer(Modifier.height(8.dp))
+            Button(onClick = { showMotionGuard = true }, modifier = Modifier.fillMaxWidth()) { Text("نگهبان حرکت در محدوده تصویر") }
+            Spacer(Modifier.height(6.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = { showApps = true }, modifier = Modifier.weight(1f)) { Text("انتخاب برنامه گوشی") }
                 Button(onClick = {
@@ -190,7 +192,10 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
             }
         }
     }
-    if (showMotionGuard) {\n        MotionGuardScreen(onBack = { showMotionGuard = false })\n    }\n    if (showApps) {
+    if (showMotionGuard) {
+        MotionGuardScreen(onBack = { showMotionGuard = false })
+    }
+    if (showApps) {
         AlertDialog(
             onDismissRequest = { showApps = false },
             title = { Text("برنامه موردنظر را انتخاب کن") },
