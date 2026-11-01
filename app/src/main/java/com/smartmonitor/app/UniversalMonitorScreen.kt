@@ -28,6 +28,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import kotlinx.coroutines.delay
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 private data class MonitorTargetApp(val label: String, val packageName: String)
 
@@ -52,6 +55,14 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
     var appList by remember { mutableStateOf(emptyList<MonitorTargetApp>()) }
     var showApps by remember { mutableStateOf(false) }
     var targetApp by remember { mutableStateOf<MonitorTargetApp?>(null) }
+    val prefs = remember { context.getSharedPreferences("universal_monitor", 0) }
+    val history = remember { mutableStateListOf<String>().apply { addAll(prefs.getString("history", "")!!.split("\\n").filter { it.isNotBlank() }.take(30)) } }
+    fun recordChange(oldValue: String, newValue: String) {
+        val stamp = SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault()).format(Date())
+        history.add(0, "$stamp | $oldValue → $newValue")
+        while (history.size > 30) history.removeAt(history.lastIndex)
+        prefs.edit().putString("history", history.joinToString("\\n")).apply()
+    }
 
     LaunchedEffect(Unit) {
         val intent = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
@@ -69,7 +80,10 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
             ) { raw ->
                 val value = raw?.trim('"')?.replace("\\n", "\n")?.takeIf { it.isNotBlank() } ?: ""
                 if (value.isNotBlank()) {
-                    if (latestText.isNotBlank() && value != latestText) previousText = latestText
+                    if (latestText.isNotBlank() && value != latestText) {
+                        previousText = latestText
+                        recordChange(latestText, value)
+                    }
                     latestText = value
                 }
             }
@@ -167,6 +181,11 @@ fun UniversalMonitorScreen(onBack: () -> Unit) {
                     if (latestText.isNotBlank()) Text("آخرین مقدار: $latestText")
                     if (previousText.isNotBlank() && previousText != latestText) Text("تغییر تشخیص داده شد؛ مقدار قبلی: $previousText", color = MaterialTheme.colorScheme.error)
                     Text("بررسی خودکار هر ۵ ثانیه هنگام باز بودن این صفحه انجام می‌شود.", style = MaterialTheme.typography.bodySmall)
+                    if (history.isNotEmpty()) {
+                        Spacer(Modifier.height(6.dp))
+                        Text("تاریخچه تغییرات", fontWeight = FontWeight.Bold)
+                        history.take(4).forEach { Text(it, style = MaterialTheme.typography.bodySmall) }
+                    }
                 }
             }
         }
